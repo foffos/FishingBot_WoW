@@ -17,6 +17,9 @@ namespace FishingBotFoffosEdition
         private const int MOUSEEVENTF_RIGHTUP = 0x0010;
         private const int KEY_1 = 0x31;
 
+        public const int KEYEVENTF_EXTENDEDKEY = 0x0001; //Key down flag
+        public const int KEYEVENTF_KEYUP = 0x0002; //Key up flag
+
         public Point CurrentTrackedCursorPos;
         public MouseUtility()
         {
@@ -29,6 +32,22 @@ namespace FishingBotFoffosEdition
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern void mouse_event(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
 
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern void keyboard_event(int dwFlags);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern void keybd_event(byte bVk, byte bScan, int dwFlags, int dwExtraInfo);
+
+        public void KeyboardPressFishing()
+        {
+            keybd_event(KEY_1, 0, KEYEVENTF_EXTENDEDKEY, 0);
+            keybd_event(KEY_1, 0, KEYEVENTF_KEYUP, 0);
+        }
+        public void KeyboardPress(byte key)
+        {
+            keybd_event(key, 0, KEYEVENTF_EXTENDEDKEY, 0);
+            keybd_event(key, 0, KEYEVENTF_KEYUP, 0);
+        }
 
         public void MoveMouseToPos(int xpos, int ypos)
         {
@@ -62,7 +81,7 @@ namespace FishingBotFoffosEdition
         public void RightMouseClick()
         {
             mouse_event(MOUSEEVENTF_RIGHTDOWN, CurrentTrackedCursorPos.X, CurrentTrackedCursorPos.Y, 0, 0);
-            Thread.Sleep(80);
+            Thread.Sleep(150);
             mouse_event(MOUSEEVENTF_RIGHTUP, CurrentTrackedCursorPos.X, CurrentTrackedCursorPos.Y, 0, 0);
         }
         public static void Key1Click()

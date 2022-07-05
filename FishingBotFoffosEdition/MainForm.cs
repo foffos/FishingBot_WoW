@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSCore.CoreAudioAPI;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -69,5 +70,27 @@ namespace FishingBotFoffosEdition
         [DllImport("winm.dll")]
         private static extern long mciSendString(string command, StringBuilder retstring, int Returnlenth, IntPtr callback);
 
+        private void testsoundbutton_Click(object sender, EventArgs e)
+        {
+            Core.testAudioCapture();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var device = AudioManager.GetDefaultRenderDevice();
+            using (var meter = AudioMeterInformation.FromDevice(device))
+            {
+                while (true)
+                {
+                    Console.WriteLine($"volume: {meter.PeakValue}");
+                    Thread.Sleep(100);
+                }
+            }
+        }
+
+        private void chart1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
