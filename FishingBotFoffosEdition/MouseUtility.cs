@@ -16,6 +16,7 @@ namespace FishingBotFoffosEdition
         private const int MOUSEEVENTF_RIGHTDOWN = 0x0008;
         private const int MOUSEEVENTF_RIGHTUP = 0x0010;
         private const int KEY_1 = 0x31;
+        private const int SPACEBAR = 0x20;
 
         public const int KEYEVENTF_EXTENDEDKEY = 0x0001; //Key down flag
         public const int KEYEVENTF_KEYUP = 0x0002; //Key up flag
@@ -32,9 +33,6 @@ namespace FishingBotFoffosEdition
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern void mouse_event(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
 
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        public static extern void keyboard_event(int dwFlags);
-
         [DllImport("user32.dll", SetLastError = true)]
         static extern void keybd_event(byte bVk, byte bScan, int dwFlags, int dwExtraInfo);
 
@@ -43,6 +41,12 @@ namespace FishingBotFoffosEdition
             keybd_event(KEY_1, 0, KEYEVENTF_EXTENDEDKEY, 0);
             keybd_event(KEY_1, 0, KEYEVENTF_KEYUP, 0);
         }
+        public void KeyboardPressJump()
+        {
+            keybd_event(SPACEBAR, 0, KEYEVENTF_EXTENDEDKEY, 0);
+            keybd_event(SPACEBAR, 0, KEYEVENTF_KEYUP, 0);
+        }
+
         public void KeyboardPress(byte key)
         {
             keybd_event(key, 0, KEYEVENTF_EXTENDEDKEY, 0);
@@ -84,10 +88,6 @@ namespace FishingBotFoffosEdition
             Thread.Sleep(150);
             mouse_event(MOUSEEVENTF_RIGHTUP, CurrentTrackedCursorPos.X, CurrentTrackedCursorPos.Y, 0, 0);
         }
-        public static void Key1Click()
-        {
-            //SendInput();
-        }
 
         // Declare the INPUT struct
         [StructLayout(LayoutKind.Sequential)]
@@ -100,18 +100,6 @@ namespace FishingBotFoffosEdition
             }
         }
 
-        // <summary>
-        /// Declaration of external SendInput method
-        /// </summary>
-        [DllImport("user32.dll")]
-        internal static extern uint SendInput(
-            uint nInputs,
-            [MarshalAs(UnmanagedType.LPArray), In] INPUT[] pInputs,
-            int cbSize);
-
-        /// <summary>
-        /// Struct representing a point.
-        /// </summary>
         [StructLayout(LayoutKind.Sequential)]
         public struct POINT
         {
@@ -124,10 +112,6 @@ namespace FishingBotFoffosEdition
             }
         }
 
-        /// <summary>
-        /// Retrieves the cursor's position, in screen coordinates.
-        /// </summary>
-        /// <see>See MSDN documentation for further information.</see>
         [DllImport("user32.dll")]
         public static extern bool GetCursorPos(out POINT lpPoint);
 
@@ -135,10 +119,6 @@ namespace FishingBotFoffosEdition
         {
             POINT lpPoint;
             GetCursorPos(out lpPoint);
-            // NOTE: If you need error handling
-            // bool success = GetCursorPos(out lpPoint);
-            // if (!success)
-
             return lpPoint;
         }
 
