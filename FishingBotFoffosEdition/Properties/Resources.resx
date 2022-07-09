@@ -117,7 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ProcessedFolder" xml:space="preserve">
+    <value>Appdata/Temp/Processed</value>
+  </data>
+  <data name="TempFolder" xml:space="preserve">
+    <value>Appdata/Temp</value>
+  </data>
   <data name="TemplateFolder" xml:space="preserve">
-    <value>Appdata/Resources/FishingLureTemplate</value>
+    <value>Appdata/Resources/FishingLureTemplates</value>
   </data>
 </root>

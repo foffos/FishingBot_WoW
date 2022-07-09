@@ -1,31 +1,23 @@
 ﻿using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
+using FishingBotFoffosEdition.Properties;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FishingBotFoffosEdition
 {
     public static class VideoManager
     {
-        public static Bitmap GetSreenshot()
-        {
-            Bitmap bm = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-            Graphics g = Graphics.FromImage(bm);
-            g.CopyFromScreen(0, 0, 0, 0, bm.Size);
-            return bm;
-        }
-
+        /// <summary>
+        /// get live screenshot from primary screen based on his resolution, saves it to the configuration folder and return his path
+        /// </summary>
+        /// <returns>.jpg image file path</returns>
         public static string TakeScreenshot()
         {
-
             Rectangle bounds = Screen.GetBounds(Point.Empty);
 
             using (Bitmap bitmap = new Bitmap(bounds.Width, bounds.Height))
@@ -34,23 +26,34 @@ namespace FishingBotFoffosEdition
                 {
                     g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
                 }
-                string path = $"C:\\Users\\andry\\Desktop\\DebugScreens\\Screen{DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")}.jpg";
+                string path = Path.Combine(Resources.ResourceManager.GetString("TmpFolder"), $"Screen{DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")}.jpg");
                 bitmap.Save(path, ImageFormat.Jpeg);
                 return path;
             }
         }
 
+        /// <summary>
+        /// Class that contains infos about a search made on image
+        /// </summary>
         public class SearchResult
         {
             public Rectangle rect;
             public double precision;
+            public Point optimizedClickPoint;
         }
+        /// <summary>
+        /// search the second image inside the first one
+        /// </summary>
+        /// <param name="imgContainerPath">path of the image that should contain the other one</param>
+        /// <param name="imgContainedPath">path of the image that should be contained inside the other one</param>
+        /// <returns>search result info</returns>
         public static SearchResult newSearch(string imgContainerPath, string imgContainedPath)
         {
             double compareValue = 0;
-            Rectangle returnedRect = new Rectangle();
-            Image<Bgr, byte> source = new Image<Bgr, byte>(imgContainerPath); // Image B
-            Image<Bgr, byte> template = new Image<Bgr, byte>(imgContainedPath); // Image A
+            Rectangle lureReturnedRect = new Rectangle();
+            Point optimizedClickPoint = new Point();
+            Image<Bgr, byte> source = new Image<Bgr, byte>(imgContainerPath);
+            Image<Bgr, byte> template = new Image<Bgr, byte>(imgContainedPath);
             Image<Bgr, byte> imageToShow = source.Copy();
 
             using (Image<Gray, float> result = source.MatchTemplate(template, TemplateMatchingType.CcoeffNormed))
@@ -58,27 +61,16 @@ namespace FishingBotFoffosEdition
                 double[] minValues, maxValues;
                 Point[] minLocations, maxLocations;
                 result.MinMax(out minValues, out maxValues, out minLocations, out maxLocations);
-
                 compareValue = maxValues[0];
-                returnedRect = new Rectangle(maxLocations[0], template.Size);
-                imageToShow.Draw(returnedRect, new Bgr(Color.Red), 3);
-                Console.WriteLine($"{Path.GetFileName(imgContainedPath)}: {compareValue}");
-                // You can try different values of the threshold. I guess somewhere between 0.75 and 0.95 would be good.
-                //if (compareValue > 0.6)
-                //{
-                //    // This is a match. Do something with it, for example draw a rectangle around it.
-                //    //returnedRect = new Rectangle(maxLocations[0], template.Size);
-                //    //imageToShow.Draw(returnedRect, new Bgr(Color.Red), 3);
-                //    //Console.WriteLine($"Image Found: {compareValue}");
-                //}
-                //else
-                //{
-                //    Console.WriteLine($"Image Not Found: {compareValue}");
-                //}   
+                Point foundPoint = maxLocations[0];
+                lureReturnedRect = new Rectangle(maxLocations[0], template.Size);
+                optimizedClickPoint = new Point(foundPoint.X + (int)(template.Width * 0.2), foundPoint.Y + (int)(template.Height * 0.8));
+                imageToShow.Draw(lureReturnedRect, new Bgr(Color.Red), 2);
+                imageToShow.Draw(new Cross2DF(optimizedClickPoint, 10, 10), new Bgr(Color.Purple), 2);
             }
-
-            imageToShow.Save($"C:\\Users\\andry\\Desktop\\DebugScreens\\Processed\\{DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")}.png");
-            return new SearchResult() { rect = returnedRect, precision = compareValue };
+            string pathToSave = Path.Combine(Resources.TempFolder, $"Processed//Screen{DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")}.jpg");
+            imageToShow.Save(pathToSave);
+            return new SearchResult() { rect = lureReturnedRect, precision = compareValue, optimizedClickPoint = optimizedClickPoint };
         }
     }
 }

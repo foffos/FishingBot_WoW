@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
+﻿using System.Drawing;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace FishingBotFoffosEdition
 {
@@ -57,6 +52,10 @@ namespace FishingBotFoffosEdition
         {
             CurrentTrackedCursorPos = new Point(xpos, ypos);
             SetCursorPos(xpos, ypos);
+        }
+        public void MoveMouseToPos(Point point)
+        {
+            SetCursorPos(point.X, point.Y);
         }
 
         public void MoveAndLeftMouseClick(int xpos, int ypos)

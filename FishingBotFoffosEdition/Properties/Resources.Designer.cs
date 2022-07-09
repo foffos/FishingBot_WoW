@@ -61,7 +61,25 @@ namespace FishingBotFoffosEdition.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Appdata/Resources/FishingLureTemplate.
+        ///   Looks up a localized string similar to Appdata/Temp/Processed.
+        /// </summary>
+        internal static string ProcessedFolder {
+            get {
+                return ResourceManager.GetString("ProcessedFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Appdata/Temp.
+        /// </summary>
+        internal static string TempFolder {
+            get {
+                return ResourceManager.GetString("TempFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Appdata/Resources/FishingLureTemplates.
         /// </summary>
         internal static string TemplateFolder {
             get {

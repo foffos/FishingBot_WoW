@@ -1,9 +1,6 @@
 ﻿using CSCore.CoreAudioAPI;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FishingBotFoffosEdition
 {
@@ -18,21 +15,11 @@ namespace FishingBotFoffosEdition
             }
         }
 
-        // Checks if audio is playing on a certain device
-        public static bool IsAudioPlaying(MMDevice device)
+        public static List<MMDevice> GetRenderDevices()
         {
-            using (var meter = AudioMeterInformation.FromDevice(device))
+            using (var enumerator = new MMDeviceEnumerator())
             {
-                return meter.PeakValue > 0;
-            }
-        }
-
-        // Checks if audio is playing on a certain device
-        public static float getAudioVolume(MMDevice device)
-        {
-            using (var meter = AudioMeterInformation.FromDevice(device))
-            {
-                return meter.PeakValue;
+                return enumerator.EnumAudioEndpoints(DataFlow.Render, DeviceState.Active).ToList();
             }
         }
     }
