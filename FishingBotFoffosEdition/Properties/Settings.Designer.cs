@@ -70,5 +70,29 @@ namespace FishingBotFoffosEdition.Properties {
                 this["DefaultExecuteTaskNumber"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ForceLureFinding {
+            get {
+                return ((bool)(this["ForceLureFinding"]));
+            }
+            set {
+                this["ForceLureFinding"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public decimal MinimalPrecisionRequired {
+            get {
+                return ((decimal)(this["MinimalPrecisionRequired"]));
+            }
+            set {
+                this["MinimalPrecisionRequired"] = value;
+            }
+        }
     }
 }

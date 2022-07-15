@@ -9,25 +9,27 @@ using static FishingBotFoffosEdition.VideoManager;
 
 namespace FishingBotFoffosEdition
 {
-    public class Core
+    public class CoreFishingBot
     {
         private const int EXECUTION_TIMEOUT = 18 * 1000;
         private const int EXECUTION_DELAY = 1000;
-        private const int EXECUTION_DELAY_FAST = 100;
-        private const int EXECUTION_DELAY_EXTENDED = 3000;
+        private const int EXECUTION_DELAY_BEFORE_SEARCH = 3500;
+        private const int EXECUTION_DELAY_FAST = 75;
         private const decimal DEFAULT_AUDIO_TRASHOLD = 0.3M;
         private const int DEFAULT_TASKS_TO_EXECUTE = 50;
 
         enum State
         {
             ReadyToFish,
-            FishingPoleUsed,
+            SearchingForLure,
             FishingLurePositionFound,
             Fished
         };
 
         public MMDevice device;
         public decimal audioVolume;
+        public bool forceLureFinding;
+        public decimal minimalPrecisionRequired;
         public AudioMeterInformation audioMeter;
         public ExecutionInfo executionInfo;
         public System.Diagnostics.Stopwatch iterationStopWatch;
@@ -36,7 +38,7 @@ namespace FishingBotFoffosEdition
         private decimal audioThreshold;
         private MouseUtility mouseUtilityBot;
         private List<string> templateFilePathList = new List<string>();
-        public Core()
+        public CoreFishingBot()
         {
             executionInfo = new ExecutionInfo();
             executionInfo.TaskToExecute = DEFAULT_TASKS_TO_EXECUTE;
@@ -64,7 +66,7 @@ namespace FishingBotFoffosEdition
             return audioThreshold;
         }
 
-        public void ExecuteMainBotFunction(char fishingChar, Action<string> logFunction)
+        public void ExecuteMainBotFunction(Action<string> logFunction, CancellationToken cancellationToken)
         {
             try
             {
@@ -75,7 +77,7 @@ namespace FishingBotFoffosEdition
                 State state = State.ReadyToFish;
                 iterationStopWatch = new System.Diagnostics.Stopwatch();
 
-                Thread.Sleep(EXECUTION_DELAY_EXTENDED);
+                Thread.Sleep(EXECUTION_DELAY);
 
                 iterationStopWatch.Start();
 
@@ -83,6 +85,16 @@ namespace FishingBotFoffosEdition
                 {
                     try
                     {
+                        //thread cancellation check
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            logFunction($"Execution Stopped");
+                            state = State.ReadyToFish;
+                            executionStopWatch.Stop();
+                            iterationStopWatch.Stop();
+                            return;
+                        }
+                        //timeout check
                         if (iterationStopWatch.ElapsedMilliseconds > EXECUTION_TIMEOUT)
                         {
                             executionInfo.TaskErrors++;
@@ -90,8 +102,10 @@ namespace FishingBotFoffosEdition
                             logFunction($"Execution timeout - restarting");
                             state = State.ReadyToFish;
                             mouseUtilityBot.KeyboardPressJump();
-                            Thread.Sleep(EXECUTION_DELAY_EXTENDED);
+                            Thread.Sleep(EXECUTION_DELAY);
                         }
+
+                        //States executions
                         switch (state)
                         {
                             //use fishing pole
@@ -99,29 +113,28 @@ namespace FishingBotFoffosEdition
                                 Thread.Sleep(EXECUTION_DELAY);
                                 iterationStopWatch.Restart();
                                 mouseUtilityBot.KeyboardPressFishing();
-                                state = State.FishingPoleUsed;
+                                state = State.SearchingForLure;
                                 logFunction($"Fishing pole used");
                                 break;
 
                             //search for target
-                            case State.FishingPoleUsed:
-                                Thread.Sleep(EXECUTION_DELAY);
+                            case State.SearchingForLure:
+                                Thread.Sleep(EXECUTION_DELAY_BEFORE_SEARCH);
                                 logFunction($"searching for lure...");
-                                string screenhotPath = VideoManager.TakeScreenshot();
-                                List<SearchResult> searchResutList = new List<SearchResult>();
-                                foreach (var template in templateFilePathList)
-                                {
-                                    SearchResult searchResult = VideoManager.newSearch(screenhotPath, template);
-                                    searchResutList.Add(searchResult);
-                                }
 
-                                SearchResult topResult = searchResutList.OrderByDescending(x => x.precision).First();
-                                var rect = topResult.rect;
-                                if (rect.Width > 0 && rect.Height > 0)
+                                SearchResult topResult = VideoManager.FindTemplateInCurrentScreenBestPrecision(templateFilePathList);
+
+                                //Force Lure Finding >>> the precision must be more than minimalPrecisionRequired, or it will re-execute
+                                if (forceLureFinding && topResult.precision < (double)minimalPrecisionRequired)
+                                {
+                                    logFunction($"lure NOT found: precision {(topResult.precision * 100).ToString("0.")}% over {(minimalPrecisionRequired * 100).ToString("0.")}% required - re-executing from first step");
+                                    state = State.ReadyToFish;
+                                }
+                                else
                                 {
                                     mouseUtilityBot.MoveMouseToPos(topResult.optimizedClickPoint);
                                     state = State.FishingLurePositionFound;
-                                    logFunction($"lure found: precision {topResult.precision.ToString("00.00")}%");
+                                    logFunction($"lure found: precision {(topResult.precision * 100).ToString("0.")}%");
                                     logFunction($"Waiting for audio input > {audioThreshold}...");
                                 }
 
@@ -145,14 +158,15 @@ namespace FishingBotFoffosEdition
                                 executionInfo.TaskSuccess++;
                                 executionInfo.TeskExecuted++;
                                 logFunction($"Execute_Fished, restarting...");
-                                Thread.Sleep(EXECUTION_DELAY_EXTENDED);
+                                Thread.Sleep(EXECUTION_DELAY);
                                 state = State.ReadyToFish;
                                 break;
                         }
                     }
                     catch (Exception ex)
                     {
-                        File.WriteAllText($"CrashReport_{DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")}.txt", ex.StackTrace);
+                        File.WriteAllText($"CrashReport_{DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")}.txt", ex.Message + "\n" + ex.StackTrace);
+                        throw ex;
                     }
 
                 }
@@ -160,7 +174,8 @@ namespace FishingBotFoffosEdition
             }
             catch (Exception ex)
             {
-                File.WriteAllText($"CrashReport_{DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")}.txt", ex.StackTrace);
+                File.WriteAllText($"CrashReport_{DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")}.txt", ex.Message + "\n" + ex.StackTrace);
+                throw ex;
             }
         }
 

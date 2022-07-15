@@ -3,9 +3,11 @@ using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using FishingBotFoffosEdition.Properties;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace FishingBotFoffosEdition
@@ -26,7 +28,7 @@ namespace FishingBotFoffosEdition
                 {
                     g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
                 }
-                string path = Path.Combine(Resources.ResourceManager.GetString("TmpFolder"), $"Screen{DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")}.jpg");
+                string path = Path.Combine(Resources.TempFolder, $"Screen{DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")}.jpg");
                 bitmap.Save(path, ImageFormat.Jpeg);
                 return path;
             }
@@ -71,6 +73,24 @@ namespace FishingBotFoffosEdition
             string pathToSave = Path.Combine(Resources.TempFolder, $"Processed//Screen{DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")}.jpg");
             imageToShow.Save(pathToSave);
             return new SearchResult() { rect = lureReturnedRect, precision = compareValue, optimizedClickPoint = optimizedClickPoint };
+        }
+
+        public static List<SearchResult> FindTemplatesInCurrentScreen(List<string> templateFilePathList)
+        {
+            string screenhotPath = VideoManager.TakeScreenshot();
+            List<SearchResult> searchResutList = new List<SearchResult>();
+            foreach (var template in templateFilePathList)
+            {
+                SearchResult searchResult = VideoManager.newSearch(screenhotPath, template);
+                searchResutList.Add(searchResult);
+            }
+            return searchResutList;
+        }
+
+        public static SearchResult FindTemplateInCurrentScreenBestPrecision(List<string> templateFilePathList)
+        {
+            var results = FindTemplatesInCurrentScreen(templateFilePathList);
+            return results.OrderByDescending(x => x.precision).First();
         }
     }
 }

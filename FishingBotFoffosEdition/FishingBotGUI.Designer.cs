@@ -1,6 +1,8 @@
-﻿namespace FishingBotFoffosEdition
+﻿using FishingBotFoffosEdition.Properties;
+
+namespace FishingBotFoffosEdition
 {
-    partial class MainForm
+    partial class FishingBotGUI
     {
         /// <summary>
         /// Required designer variable.
@@ -49,8 +51,13 @@
             this.delTempFilesButton = new System.Windows.Forms.Button();
             this.saveConfigurationButton = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
+            this.ForceLureFindingCheckBox = new System.Windows.Forms.CheckBox();
+            this.FindingPrecisionNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
+            this.clearExecutionInfoButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.VolumeTresholdNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ExecutionNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FindingPrecisionNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // RunButton
@@ -75,7 +82,7 @@
             // keyBindingFishingLabel
             // 
             this.keyBindingFishingLabel.AutoSize = true;
-            this.keyBindingFishingLabel.Location = new System.Drawing.Point(69, 153);
+            this.keyBindingFishingLabel.Location = new System.Drawing.Point(60, 139);
             this.keyBindingFishingLabel.Name = "keyBindingFishingLabel";
             this.keyBindingFishingLabel.Size = new System.Drawing.Size(64, 13);
             this.keyBindingFishingLabel.TabIndex = 5;
@@ -96,14 +103,14 @@
             // 
             this.logTextBox.Location = new System.Drawing.Point(186, 27);
             this.logTextBox.Name = "logTextBox";
-            this.logTextBox.Size = new System.Drawing.Size(372, 366);
+            this.logTextBox.Size = new System.Drawing.Size(372, 345);
             this.logTextBox.TabIndex = 9;
             this.logTextBox.Text = "";
             // 
             // outputVolumeTrackerLabel
             // 
             this.outputVolumeTrackerLabel.AutoSize = true;
-            this.outputVolumeTrackerLabel.Location = new System.Drawing.Point(29, 268);
+            this.outputVolumeTrackerLabel.Location = new System.Drawing.Point(51, 301);
             this.outputVolumeTrackerLabel.Name = "outputVolumeTrackerLabel";
             this.outputVolumeTrackerLabel.Size = new System.Drawing.Size(73, 13);
             this.outputVolumeTrackerLabel.TabIndex = 11;
@@ -112,7 +119,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(41, 312);
+            this.label1.Location = new System.Drawing.Point(4, 330);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(92, 13);
             this.label1.TabIndex = 13;
@@ -126,7 +133,7 @@
             0,
             0,
             131072});
-            this.VolumeTresholdNumericUpDown.Location = new System.Drawing.Point(57, 328);
+            this.VolumeTresholdNumericUpDown.Location = new System.Drawing.Point(102, 328);
             this.VolumeTresholdNumericUpDown.Maximum = new decimal(new int[] {
             2,
             0,
@@ -175,7 +182,7 @@
             // textBox1
             // 
             this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(72, 169);
+            this.textBox1.Location = new System.Drawing.Point(63, 155);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(52, 20);
             this.textBox1.TabIndex = 18;
@@ -223,7 +230,7 @@
             // audioDeviceComboBox
             // 
             this.audioDeviceComboBox.FormattingEnabled = true;
-            this.audioDeviceComboBox.Location = new System.Drawing.Point(32, 210);
+            this.audioDeviceComboBox.Location = new System.Drawing.Point(32, 181);
             this.audioDeviceComboBox.Name = "audioDeviceComboBox";
             this.audioDeviceComboBox.Size = new System.Drawing.Size(121, 21);
             this.audioDeviceComboBox.TabIndex = 24;
@@ -268,11 +275,64 @@
             this.label5.TabIndex = 28;
             this.label5.Text = "Execution Info:";
             // 
+            // ForceLureFindingCheckBox
+            // 
+            this.ForceLureFindingCheckBox.AutoSize = true;
+            this.ForceLureFindingCheckBox.Location = new System.Drawing.Point(32, 214);
+            this.ForceLureFindingCheckBox.Name = "ForceLureFindingCheckBox";
+            this.ForceLureFindingCheckBox.Size = new System.Drawing.Size(107, 17);
+            this.ForceLureFindingCheckBox.TabIndex = 29;
+            this.ForceLureFindingCheckBox.Text = "Force lure finding";
+            this.ForceLureFindingCheckBox.UseVisualStyleBackColor = true;
+            this.ForceLureFindingCheckBox.CheckedChanged += new System.EventHandler(this.ForceLureFindingCheckBox_CheckedChanged);
+            // 
+            // FindingPrecisionNumericUpDown
+            // 
+            this.FindingPrecisionNumericUpDown.DecimalPlaces = 2;
+            this.FindingPrecisionNumericUpDown.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.FindingPrecisionNumericUpDown.Location = new System.Drawing.Point(54, 262);
+            this.FindingPrecisionNumericUpDown.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.FindingPrecisionNumericUpDown.Name = "FindingPrecisionNumericUpDown";
+            this.FindingPrecisionNumericUpDown.Size = new System.Drawing.Size(67, 20);
+            this.FindingPrecisionNumericUpDown.TabIndex = 30;
+            this.FindingPrecisionNumericUpDown.ValueChanged += new System.EventHandler(this.FindingPrecisionNumericUpDown_ValueChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(29, 245);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(127, 13);
+            this.label6.TabIndex = 31;
+            this.label6.Text = "minimal precision required";
+            // 
+            // clearExecutionInfoButton
+            // 
+            this.clearExecutionInfoButton.Location = new System.Drawing.Point(436, 378);
+            this.clearExecutionInfoButton.Name = "clearExecutionInfoButton";
+            this.clearExecutionInfoButton.Size = new System.Drawing.Size(113, 23);
+            this.clearExecutionInfoButton.TabIndex = 32;
+            this.clearExecutionInfoButton.Text = "Clear Execution Info";
+            this.clearExecutionInfoButton.UseVisualStyleBackColor = true;
+            this.clearExecutionInfoButton.Click += new System.EventHandler(this.clearExecutionInfoButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(760, 405);
+            this.Controls.Add(this.clearExecutionInfoButton);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.FindingPrecisionNumericUpDown);
+            this.Controls.Add(this.ForceLureFindingCheckBox);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.saveConfigurationButton);
             this.Controls.Add(this.delTempFilesButton);
@@ -294,10 +354,12 @@
             this.Controls.Add(this.keyBindingFishingLabel);
             this.Controls.Add(this.xLabel);
             this.Controls.Add(this.RunButton);
+            this.Icon = global::FishingBotFoffosEdition.Properties.Resources.Icon;
             this.Name = "MainForm";
-            this.Text = "Foffos Fishing Bot Wow 3.3.5 Beta 0.2.0";
+            this.Text = "Foffos Fishing Bot Wow 3.3.5 Beta 0.2.1";
             ((System.ComponentModel.ISupportInitialize)(this.VolumeTresholdNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ExecutionNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FindingPrecisionNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -325,6 +387,10 @@
         private System.Windows.Forms.Button delTempFilesButton;
         private System.Windows.Forms.Button saveConfigurationButton;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox ForceLureFindingCheckBox;
+        private System.Windows.Forms.NumericUpDown FindingPrecisionNumericUpDown;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button clearExecutionInfoButton;
     }
 }
 
