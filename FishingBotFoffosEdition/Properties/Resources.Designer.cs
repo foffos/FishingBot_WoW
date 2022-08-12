@@ -61,6 +61,15 @@ namespace FishingBotFoffosEdition.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Appdata/Temp/Debug.
+        /// </summary>
+        internal static string DebugFolder {
+            get {
+                return ResourceManager.GetString("DebugFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon Icon {

@@ -127,18 +127,27 @@
     <Compile Include="AudioManager.cs" />
     <Compile Include="CoreFishingBot.cs" />
     <Compile Include="ExecutionInfo.cs" />
-    <Compile Include="FishingBotGUI.cs">
+    <Compile Include="FishingBotForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FishingBotGUI.Designer.cs">
-      <DependentUpon>FishingBotGUI.cs</DependentUpon>
+    <Compile Include="FishingBotForm.Designer.cs">
+      <DependentUpon>FishingBotForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImageViewerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImageViewerForm.Designer.cs">
+      <DependentUpon>ImageViewerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MouseUtility.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VideoManager.cs" />
-    <EmbeddedResource Include="FishingBotGUI.resx">
-      <DependentUpon>FishingBotGUI.cs</DependentUpon>
+    <EmbeddedResource Include="FishingBotForm.resx">
+      <DependentUpon>FishingBotForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImageViewerForm.resx">
+      <DependentUpon>ImageViewerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -166,6 +175,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="AppData\Temp\Debug\" />
     <Folder Include="AppData\Temp\Processed\" />
   </ItemGroup>
   <ItemGroup>

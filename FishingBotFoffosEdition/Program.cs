@@ -11,11 +11,9 @@ namespace FishingBotFoffosEdition
         [STAThread]
         static void Main()
         {
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FishingBotGUI());
-
+            Application.Run(new FishingBotForm());
         }
     }
 }

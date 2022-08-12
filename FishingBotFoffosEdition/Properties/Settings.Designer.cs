@@ -94,5 +94,41 @@ namespace FishingBotFoffosEdition.Properties {
                 this["MinimalPrecisionRequired"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int DebugRuns {
+            get {
+                return ((int)(this["DebugRuns"]));
+            }
+            set {
+                this["DebugRuns"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int YOffset {
+            get {
+                return ((int)(this["YOffset"]));
+            }
+            set {
+                this["YOffset"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int XOffset {
+            get {
+                return ((int)(this["XOffset"]));
+            }
+            set {
+                this["XOffset"] = value;
+            }
+        }
     }
 }
