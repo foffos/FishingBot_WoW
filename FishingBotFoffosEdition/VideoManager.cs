@@ -35,8 +35,19 @@ namespace FishingBotFoffosEdition
                 {
                     g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
                 }
+                if (!Directory.Exists(Resources.TempFolder))
+                    Directory.CreateDirectory(Resources.TempFolder);
                 string path = Path.Combine(Resources.TempFolder, $"Screen{DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")}.jpg");
-                bitmap.Save(path, ImageFormat.Jpeg);
+
+                using (MemoryStream memory = new MemoryStream())
+                {
+                    using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
+                    {
+                        bitmap.Save(memory, ImageFormat.Jpeg);
+                        byte[] bytes = memory.ToArray();
+                        fs.Write(bytes, 0, bytes.Length);
+                    }
+                }
                 return path;
             }
         }
@@ -79,6 +90,11 @@ namespace FishingBotFoffosEdition
                 imageToShow.Draw(lureReturnedRect, new Bgr(Color.Red), 2);
                 imageToShow.Draw(new Cross2DF(optimizedClickPoint, 10, 10), new Bgr(Color.Purple), 2);
             }
+            if (!Directory.Exists(Resources.TempFolder))
+                Directory.CreateDirectory(Resources.TempFolder);
+            if (!Directory.Exists(Path.Combine(Resources.TempFolder,"Processed")))
+                Directory.CreateDirectory(Path.Combine(Resources.TempFolder, "Processed"));
+
             string pathToSave = Path.Combine(Resources.TempFolder, $"Processed//Screen{DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")}.jpg");
             imageToShow.Save(pathToSave);
             return new SearchResult() { rect = lureReturnedRect, precision = compareValue, optimizedClickPoint = optimizedClickPoint, imagePath = pathToSave };

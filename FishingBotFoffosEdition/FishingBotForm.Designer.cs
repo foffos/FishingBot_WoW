@@ -58,11 +58,15 @@ namespace FishingBotFoffosEdition
             this.deleteTempFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openTemplateFolderToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.runDebugLureFinderToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.openTemplateFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runDebugLureFinderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OffsetXnumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.OffsetYnumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
+            this.templateFolderComboBox = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.refreshTemplatesButton = new System.Windows.Forms.Button();
+            this.FileInfoLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.VolumeTresholdNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ExecutionNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FindingPrecisionNumericUpDown)).BeginInit();
@@ -75,7 +79,7 @@ namespace FishingBotFoffosEdition
             // 
             this.RunButton.Location = new System.Drawing.Point(31, 55);
             this.RunButton.Name = "RunButton";
-            this.RunButton.Size = new System.Drawing.Size(128, 71);
+            this.RunButton.Size = new System.Drawing.Size(128, 47);
             this.RunButton.TabIndex = 1;
             this.RunButton.Text = "Stat Fishing";
             this.RunButton.UseVisualStyleBackColor = true;
@@ -84,7 +88,7 @@ namespace FishingBotFoffosEdition
             // xLabel
             // 
             this.xLabel.AutoSize = true;
-            this.xLabel.Location = new System.Drawing.Point(11, 398);
+            this.xLabel.Location = new System.Drawing.Point(218, 422);
             this.xLabel.Name = "xLabel";
             this.xLabel.Size = new System.Drawing.Size(131, 13);
             this.xLabel.TabIndex = 2;
@@ -93,7 +97,7 @@ namespace FishingBotFoffosEdition
             // keyBindingFishingLabel
             // 
             this.keyBindingFishingLabel.AutoSize = true;
-            this.keyBindingFishingLabel.Location = new System.Drawing.Point(59, 167);
+            this.keyBindingFishingLabel.Location = new System.Drawing.Point(59, 154);
             this.keyBindingFishingLabel.Name = "keyBindingFishingLabel";
             this.keyBindingFishingLabel.Size = new System.Drawing.Size(64, 13);
             this.keyBindingFishingLabel.TabIndex = 5;
@@ -102,7 +106,7 @@ namespace FishingBotFoffosEdition
             // stopButton
             // 
             this.stopButton.Enabled = false;
-            this.stopButton.Location = new System.Drawing.Point(31, 132);
+            this.stopButton.Location = new System.Drawing.Point(31, 108);
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(128, 23);
             this.stopButton.TabIndex = 8;
@@ -114,6 +118,7 @@ namespace FishingBotFoffosEdition
             // 
             this.logTextBox.Location = new System.Drawing.Point(198, 52);
             this.logTextBox.Name = "logTextBox";
+            this.logTextBox.ReadOnly = true;
             this.logTextBox.Size = new System.Drawing.Size(372, 345);
             this.logTextBox.TabIndex = 9;
             this.logTextBox.Text = "";
@@ -121,16 +126,16 @@ namespace FishingBotFoffosEdition
             // outputVolumeTrackerLabel
             // 
             this.outputVolumeTrackerLabel.AutoSize = true;
-            this.outputVolumeTrackerLabel.Location = new System.Drawing.Point(50, 329);
+            this.outputVolumeTrackerLabel.Location = new System.Drawing.Point(50, 199);
             this.outputVolumeTrackerLabel.Name = "outputVolumeTrackerLabel";
-            this.outputVolumeTrackerLabel.Size = new System.Drawing.Size(73, 13);
+            this.outputVolumeTrackerLabel.Size = new System.Drawing.Size(76, 13);
             this.outputVolumeTrackerLabel.TabIndex = 11;
-            this.outputVolumeTrackerLabel.Text = "audio treshold";
+            this.outputVolumeTrackerLabel.Text = "Output Device";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 358);
+            this.label1.Location = new System.Drawing.Point(11, 332);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(92, 13);
             this.label1.TabIndex = 13;
@@ -144,7 +149,7 @@ namespace FishingBotFoffosEdition
             0,
             0,
             131072});
-            this.VolumeTresholdNumericUpDown.Location = new System.Drawing.Point(101, 356);
+            this.VolumeTresholdNumericUpDown.Location = new System.Drawing.Point(109, 330);
             this.VolumeTresholdNumericUpDown.Maximum = new decimal(new int[] {
             2,
             0,
@@ -159,7 +164,7 @@ namespace FishingBotFoffosEdition
             // 
             this.statsRichTextBox.Location = new System.Drawing.Point(576, 119);
             this.statsRichTextBox.Name = "statsRichTextBox";
-            this.statsRichTextBox.Size = new System.Drawing.Size(171, 140);
+            this.statsRichTextBox.Size = new System.Drawing.Size(171, 93);
             this.statsRichTextBox.TabIndex = 15;
             this.statsRichTextBox.Text = "";
             // 
@@ -193,7 +198,7 @@ namespace FishingBotFoffosEdition
             // textBox1
             // 
             this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(62, 183);
+            this.textBox1.Location = new System.Drawing.Point(62, 170);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(52, 20);
             this.textBox1.TabIndex = 18;
@@ -203,7 +208,7 @@ namespace FishingBotFoffosEdition
             // timerTextBox
             // 
             this.timerTextBox.Enabled = false;
-            this.timerTextBox.Location = new System.Drawing.Point(610, 289);
+            this.timerTextBox.Location = new System.Drawing.Point(610, 242);
             this.timerTextBox.Name = "timerTextBox";
             this.timerTextBox.Size = new System.Drawing.Size(100, 20);
             this.timerTextBox.TabIndex = 20;
@@ -213,7 +218,7 @@ namespace FishingBotFoffosEdition
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(618, 273);
+            this.label3.Location = new System.Drawing.Point(617, 226);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(83, 13);
             this.label3.TabIndex = 21;
@@ -241,7 +246,7 @@ namespace FishingBotFoffosEdition
             // audioDeviceComboBox
             // 
             this.audioDeviceComboBox.FormattingEnabled = true;
-            this.audioDeviceComboBox.Location = new System.Drawing.Point(31, 209);
+            this.audioDeviceComboBox.Location = new System.Drawing.Point(31, 215);
             this.audioDeviceComboBox.Name = "audioDeviceComboBox";
             this.audioDeviceComboBox.Size = new System.Drawing.Size(121, 21);
             this.audioDeviceComboBox.TabIndex = 24;
@@ -249,7 +254,7 @@ namespace FishingBotFoffosEdition
             // 
             // saveConfigurationButton
             // 
-            this.saveConfigurationButton.Location = new System.Drawing.Point(576, 329);
+            this.saveConfigurationButton.Location = new System.Drawing.Point(584, 273);
             this.saveConfigurationButton.Name = "saveConfigurationButton";
             this.saveConfigurationButton.Size = new System.Drawing.Size(163, 23);
             this.saveConfigurationButton.TabIndex = 27;
@@ -269,7 +274,7 @@ namespace FishingBotFoffosEdition
             // ForceLureFindingCheckBox
             // 
             this.ForceLureFindingCheckBox.AutoSize = true;
-            this.ForceLureFindingCheckBox.Location = new System.Drawing.Point(31, 242);
+            this.ForceLureFindingCheckBox.Location = new System.Drawing.Point(14, 261);
             this.ForceLureFindingCheckBox.Name = "ForceLureFindingCheckBox";
             this.ForceLureFindingCheckBox.Size = new System.Drawing.Size(107, 17);
             this.ForceLureFindingCheckBox.TabIndex = 29;
@@ -284,20 +289,20 @@ namespace FishingBotFoffosEdition
             0,
             0,
             0});
-            this.FindingPrecisionNumericUpDown.Location = new System.Drawing.Point(53, 290);
+            this.FindingPrecisionNumericUpDown.Location = new System.Drawing.Point(131, 289);
             this.FindingPrecisionNumericUpDown.Name = "FindingPrecisionNumericUpDown";
-            this.FindingPrecisionNumericUpDown.Size = new System.Drawing.Size(67, 20);
+            this.FindingPrecisionNumericUpDown.Size = new System.Drawing.Size(45, 20);
             this.FindingPrecisionNumericUpDown.TabIndex = 30;
             this.FindingPrecisionNumericUpDown.ValueChanged += new System.EventHandler(this.FindingPrecisionNumericUpDown_ValueChanged);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(28, 273);
+            this.label6.Location = new System.Drawing.Point(11, 291);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(127, 13);
+            this.label6.Size = new System.Drawing.Size(110, 13);
             this.label6.TabIndex = 31;
-            this.label6.Text = "minimal precision required";
+            this.label6.Text = "Min precision required";
             // 
             // clearExecutionInfoButton
             // 
@@ -346,29 +351,29 @@ namespace FishingBotFoffosEdition
             // configurationToolStripMenuItem
             // 
             this.configurationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openTemplateFolderToolStripMenuItem1,
-            this.runDebugLureFinderToolStripMenuItem1});
+            this.openTemplateFolderToolStripMenuItem,
+            this.runDebugLureFinderToolStripMenuItem});
             this.configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
             this.configurationToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
             this.configurationToolStripMenuItem.Text = "Configuration";
             // 
-            // openTemplateFolderToolStripMenuItem1
+            // openTemplateFolderToolStripMenuItem
             // 
-            this.openTemplateFolderToolStripMenuItem1.Name = "openTemplateFolderToolStripMenuItem1";
-            this.openTemplateFolderToolStripMenuItem1.Size = new System.Drawing.Size(189, 22);
-            this.openTemplateFolderToolStripMenuItem1.Text = "Open template folder";
-            this.openTemplateFolderToolStripMenuItem1.Click += new System.EventHandler(this.openTemplateFolderToolStripMenuItem1_Click);
+            this.openTemplateFolderToolStripMenuItem.Name = "openTemplateFolderToolStripMenuItem";
+            this.openTemplateFolderToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.openTemplateFolderToolStripMenuItem.Text = "Open template folder";
+            this.openTemplateFolderToolStripMenuItem.Click += new System.EventHandler(this.openTemplateFolderToolStripMenuItem_Click);
             // 
-            // runDebugLureFinderToolStripMenuItem1
+            // runDebugLureFinderToolStripMenuItem
             // 
-            this.runDebugLureFinderToolStripMenuItem1.Name = "runDebugLureFinderToolStripMenuItem1";
-            this.runDebugLureFinderToolStripMenuItem1.Size = new System.Drawing.Size(189, 22);
-            this.runDebugLureFinderToolStripMenuItem1.Text = "Run debug lure finder";
-            this.runDebugLureFinderToolStripMenuItem1.Click += new System.EventHandler(this.runDebugLureFinderToolStripMenuItem1_Click);
+            this.runDebugLureFinderToolStripMenuItem.Name = "runDebugLureFinderToolStripMenuItem";
+            this.runDebugLureFinderToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.runDebugLureFinderToolStripMenuItem.Text = "Run debug lure finder";
+            this.runDebugLureFinderToolStripMenuItem.Click += new System.EventHandler(this.runDebugLureFinderToolStripMenuItem_Click);
             // 
-            // OffestXnumericUpDown
+            // OffsetXnumericUpDown
             // 
-            this.OffsetXnumericUpDown.Location = new System.Drawing.Point(599, 406);
+            this.OffsetXnumericUpDown.Location = new System.Drawing.Point(598, 351);
             this.OffsetXnumericUpDown.Maximum = new decimal(new int[] {
             999,
             0,
@@ -379,14 +384,14 @@ namespace FishingBotFoffosEdition
             0,
             0,
             -2147483648});
-            this.OffsetXnumericUpDown.Name = "OffestXnumericUpDown";
+            this.OffsetXnumericUpDown.Name = "OffsetXnumericUpDown";
             this.OffsetXnumericUpDown.Size = new System.Drawing.Size(59, 20);
             this.OffsetXnumericUpDown.TabIndex = 34;
             this.OffsetXnumericUpDown.ValueChanged += new System.EventHandler(this.OffestXnumericUpDown_ValueChanged);
             // 
-            // OffestYnumericUpDown
+            // OffsetYnumericUpDown
             // 
-            this.OffsetYnumericUpDown.Location = new System.Drawing.Point(664, 406);
+            this.OffsetYnumericUpDown.Location = new System.Drawing.Point(663, 351);
             this.OffsetYnumericUpDown.Maximum = new decimal(new int[] {
             999,
             0,
@@ -397,7 +402,7 @@ namespace FishingBotFoffosEdition
             0,
             0,
             -2147483648});
-            this.OffsetYnumericUpDown.Name = "OffestYnumericUpDown";
+            this.OffsetYnumericUpDown.Name = "OffsetYnumericUpDown";
             this.OffsetYnumericUpDown.Size = new System.Drawing.Size(59, 20);
             this.OffsetYnumericUpDown.TabIndex = 35;
             this.OffsetYnumericUpDown.ValueChanged += new System.EventHandler(this.OffestYnumericUpDown_ValueChanged);
@@ -405,17 +410,57 @@ namespace FishingBotFoffosEdition
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(617, 384);
+            this.label7.Location = new System.Drawing.Point(607, 319);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(106, 13);
             this.label7.TabIndex = 36;
             this.label7.Text = "X and Y click Offsets";
+            // 
+            // templateFolderComboBox
+            // 
+            this.templateFolderComboBox.FormattingEnabled = true;
+            this.templateFolderComboBox.Location = new System.Drawing.Point(12, 403);
+            this.templateFolderComboBox.Name = "templateFolderComboBox";
+            this.templateFolderComboBox.Size = new System.Drawing.Size(145, 21);
+            this.templateFolderComboBox.TabIndex = 37;
+            this.templateFolderComboBox.SelectedIndexChanged += new System.EventHandler(this.templateFolderComboBox_SelectedIndexChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(34, 384);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(83, 13);
+            this.label8.TabIndex = 38;
+            this.label8.Text = "Template Folder";
+            // 
+            // refreshTemplatesButton
+            // 
+            this.refreshTemplatesButton.Location = new System.Drawing.Point(163, 401);
+            this.refreshTemplatesButton.Name = "refreshTemplatesButton";
+            this.refreshTemplatesButton.Size = new System.Drawing.Size(24, 23);
+            this.refreshTemplatesButton.TabIndex = 39;
+            this.refreshTemplatesButton.Text = "R";
+            this.refreshTemplatesButton.UseVisualStyleBackColor = true;
+            this.refreshTemplatesButton.Click += new System.EventHandler(this.refreshTemplatesButton_Click);
+            // 
+            // FileInfoLabel
+            // 
+            this.FileInfoLabel.AutoSize = true;
+            this.FileInfoLabel.Location = new System.Drawing.Point(9, 427);
+            this.FileInfoLabel.Name = "FileInfoLabel";
+            this.FileInfoLabel.Size = new System.Drawing.Size(0, 13);
+            this.FileInfoLabel.TabIndex = 40;
             // 
             // FishingBotForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(760, 461);
+            this.Controls.Add(this.FileInfoLabel);
+            this.Controls.Add(this.refreshTemplatesButton);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.templateFolderComboBox);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.OffsetYnumericUpDown);
             this.Controls.Add(this.OffsetXnumericUpDown);
@@ -487,11 +532,15 @@ namespace FishingBotFoffosEdition
         private System.Windows.Forms.ToolStripMenuItem deleteTempFilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem configurationToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openTemplateFolderToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem runDebugLureFinderToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem openTemplateFolderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem runDebugLureFinderToolStripMenuItem;
         private System.Windows.Forms.NumericUpDown OffsetXnumericUpDown;
         private System.Windows.Forms.NumericUpDown OffsetYnumericUpDown;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox templateFolderComboBox;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button refreshTemplatesButton;
+        private System.Windows.Forms.Label FileInfoLabel;
     }
 }
 

@@ -9,6 +9,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Collections.Generic;
 using static FishingBotFoffosEdition.VideoManager;
+using System.Configuration;
 
 namespace FishingBotFoffosEdition
 {
@@ -35,14 +36,19 @@ namespace FishingBotFoffosEdition
             StartAudioMonitor();
 
             VolumeTresholdNumericUpDown.Value = core.GetAudioThreshold();
-            audioDeviceComboBox.Items.AddRange(AudioManager.GetRenderDevices().ToArray());
-            audioDeviceComboBox.SelectedIndex = audioDeviceComboBox.FindString(AudioManager.GetDefaultRenderDevice().FriendlyName);
-            loadConfiguration();
 
+            BindAudioDeviceCombobox();
+            BindTemplateFolderCombobox();
+
+            loadConfiguration();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+
+
         }
 
         #region Events
+
+        #region ClickEvents
         private void RunButton_Click(object sender, EventArgs e)
         {
             if (audioDeviceComboBox.SelectedIndex != -1)
@@ -55,30 +61,59 @@ namespace FishingBotFoffosEdition
 
             GuiUpdateExecutionStart();
         }
-
         private void stopButton_Click(object sender, EventArgs e)
         {
             tokenSource.Cancel();
             appendLog("Execution Stopped, ending current fishing process...");
             GuiUpdateExecutionStopped();
         }
+        private void saveConfigurationButton_Click(object sender, EventArgs e)
+        {
+            Settings.Default.DefaultVolumeTreshold = VolumeTresholdNumericUpDown.Value;
+            Settings.Default.DefaultExecuteTaskNumber = core.executionInfo.TaskToExecute;
+            Settings.Default.DefaultDevice = audioDeviceComboBox.SelectedIndex;
+            Settings.Default.ForceLureFinding = ForceLureFindingCheckBox.Checked;
+            Settings.Default.MinimalPrecisionRequired = FindingPrecisionNumericUpDown.Value;
 
+            Settings.Default.XOffset = (int)OffsetXnumericUpDown.Value;
+            Settings.Default.YOffset = (int)OffsetYnumericUpDown.Value;
+
+            Settings.Default.DefaultTemplate = templateFolderComboBox.SelectedValue.ToString();
+
+            Settings.Default.Save();
+        }
+        private void clearExecutionInfoButton_Click(object sender, EventArgs e)
+        {
+            logTextBox.Text = String.Empty;
+        }
+        #endregion
+
+        #region ValueChangeEvents
+        private void OffestXnumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            core.videoManager.offsetClickX = (int)OffsetXnumericUpDown.Value;
+        }
+        private void OffestYnumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            core.videoManager.offsetClickY = (int)OffsetYnumericUpDown.Value;
+        }
+        private void FindingPrecisionNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            core.minimalPrecisionRequired = FindingPrecisionNumericUpDown.Value;
+        }
+        private void ExecutionNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            core.executionInfo.TaskToExecute = (int)ExecutionNumericUpDown.Value;
+        }
         private void VolumeTresholdNumericUpDown_valueChanged(object sender, EventArgs e)
         {
             core.UpdateAudioThreshold(VolumeTresholdNumericUpDown.Value);
         }
 
-        private void ExecutionNumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            core.executionInfo.TaskToExecute = (int)ExecutionNumericUpDown.Value;
-        }
+        #endregion
 
-        private void audioDeviceComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            core.changeAudioDevice((MMDevice)audioDeviceComboBox.SelectedItem);
-        }
-
-        private void delTempFilesButton_Click(object sender, EventArgs e)
+        #region ToolStripMenuEvents
+        private void deleteTempFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var tempFileList = Directory.GetFiles(Resources.TempFolder, "*.jpg");
             this.logTextBox.AppendText("\r\n" + $"Deleting temp image files: {tempFileList.Count()} files found");
@@ -99,36 +134,42 @@ namespace FishingBotFoffosEdition
             }
             this.logTextBox.AppendText("\r\n" + $"processed image files deleted");
             this.logTextBox.ScrollToCaret();
+        }
+        private void exportLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            File.WriteAllText(Path.Combine(Resources.TempFolder, $"ExecutionLog_{DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")}.txt"), statsRichTextBox.Text + "\n----------------------------\n" + logTextBox.Text);
+        }
+        private void openTemplateFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start("explorer.exe", Resources.TemplateFolder);
+        }
+        private void runDebugLureFinderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (audioDeviceComboBox.SelectedIndex != -1)
+                tokenSource = new CancellationTokenSource();
+            List<SearchResult> resultList = new List<SearchResult>();
 
+            Task debugBotFunctionTask = Task.Factory.StartNew(() =>
+            {
+                resultList = core.ExecuteDebugBotFunction(appendLog, tokenSource.Token);
+            },
+            tokenSource.Token).ContinueWith(antecedent => ShowDebugResults(resultList));
+
+            GuiUpdateExecutionStart();
         }
 
-        private void saveConfigurationButton_Click(object sender, EventArgs e)
+        #endregion
+
+        private void audioDeviceComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Settings.Default.DefaultVolumeTreshold = VolumeTresholdNumericUpDown.Value;
-            Settings.Default.DefaultExecuteTaskNumber = core.executionInfo.TaskToExecute;
-            Settings.Default.DefaultDevice = audioDeviceComboBox.SelectedIndex;
-            Settings.Default.ForceLureFinding = ForceLureFindingCheckBox.Checked;
-            Settings.Default.MinimalPrecisionRequired = FindingPrecisionNumericUpDown.Value;
-
-            Settings.Default.XOffset = (int)OffsetXnumericUpDown.Value;
-            Settings.Default.YOffset = (int)OffsetYnumericUpDown.Value;
-
-            Settings.Default.Save();
+            core.changeAudioDevice((MMDevice)audioDeviceComboBox.SelectedItem);
         }
         private void ForceLureFindingCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             core.forceLureFinding = ForceLureFindingCheckBox.Checked;
         }
 
-        private void FindingPrecisionNumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            core.minimalPrecisionRequired = FindingPrecisionNumericUpDown.Value;
-        }
-        private void clearExecutionInfoButton_Click(object sender, EventArgs e)
-        {
-            logTextBox.Text = String.Empty;
-        }
-        #endregion
+        #endregion Events
 
         #region Timers and Tick Events
 
@@ -230,11 +271,20 @@ namespace FishingBotFoffosEdition
         {
             VolumeTresholdNumericUpDown.Value = Settings.Default.DefaultVolumeTreshold;
             ExecutionNumericUpDown.Value = Settings.Default.DefaultExecuteTaskNumber;
-            audioDeviceComboBox.SelectedIndex = Settings.Default.DefaultDevice;
             ForceLureFindingCheckBox.Checked = Settings.Default.ForceLureFinding;
             FindingPrecisionNumericUpDown.Value = Settings.Default.MinimalPrecisionRequired;
             OffsetXnumericUpDown.Value = Settings.Default.XOffset;
             OffsetYnumericUpDown.Value = Settings.Default.YOffset;
+
+            if (audioDeviceComboBox.Items.Contains(Settings.Default.DefaultDevice))
+                audioDeviceComboBox.SelectedIndex = Settings.Default.DefaultDevice;
+            else
+                audioDeviceComboBox.SelectedIndex = 0;
+
+            if (templateFolderComboBox.Items.Contains(Settings.Default.DefaultTemplate))
+                templateFolderComboBox.SelectedValue = Settings.Default.DefaultTemplate;
+            else
+                templateFolderComboBox.SelectedIndex = 0;
         }
 
         public void appendLog(string log)
@@ -264,89 +314,39 @@ namespace FishingBotFoffosEdition
             token);
         }
 
-        private void openTemplateFolderToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string folder = Path.GetFullPath(Resources.TemplateFolder);
-            Process.Start("explorer.exe", folder);
-        }
-
-        private void runDebugLureFinderToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (audioDeviceComboBox.SelectedIndex != -1)
-                tokenSource = new CancellationTokenSource();
-            List<SearchResult> resultList = new List<SearchResult>();
-
-            Task debugBotFunctionTask = Task.Factory.StartNew(() =>
-            {
-                resultList = core.ExecuteDebugBotFunction(appendLog, tokenSource.Token);
-            },
-            tokenSource.Token).ContinueWith(antecedent => ShowDebugResults(resultList));
-
-            GuiUpdateExecutionStart();
-        }
-
         private void ShowDebugResults(List<SearchResult> searchResultList)
         {
             Application.Run(new ImageViewerForm(searchResultList));
         }
 
-        private void deleteTempFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void templateFolderComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var tempFileList = Directory.GetFiles(Resources.TempFolder, "*.jpg");
-            this.logTextBox.AppendText("\r\n" + $"Deleting temp image files: {tempFileList.Count()} files found");
-            this.logTextBox.ScrollToCaret();
-            foreach (var item in tempFileList)
+            int fileCount = core.LoadTemplateFiles(templateFolderComboBox.SelectedItem.ToString());
+            FileInfoLabel.Text = $"Files: {fileCount}";
+        }
+
+        private void BindTemplateFolderCombobox()
+        {
+            templateFolderComboBox.Items.Clear();
+
+            List<string> templateFoldersList = Utils.getTemplateFolderNamesList();
+
+            foreach (var directory in templateFoldersList)
             {
-                File.Delete(item);
+                templateFolderComboBox.Items.Add(directory);
             }
-            this.logTextBox.AppendText("\r\n" + $"temp image files deleted");
-            this.logTextBox.ScrollToCaret();
-
-            var processedFileList = Directory.GetFiles(Resources.ProcessedFolder, "*.jpg");
-            this.logTextBox.AppendText("\r\n" + $"Deleting processed image files: {processedFileList.Count()} files found");
-            this.logTextBox.ScrollToCaret();
-            foreach (var item in processedFileList)
-            {
-                File.Delete(item);
-            }
-            this.logTextBox.AppendText("\r\n" + $"processed image files deleted");
-            this.logTextBox.ScrollToCaret();
         }
 
-        private void exportLogToolStripMenuItem_Click(object sender, EventArgs e)
+        private void BindAudioDeviceCombobox()
         {
-            File.WriteAllText(Path.Combine(Resources.TempFolder, $"ExecutionLog_{DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")}.txt"), statsRichTextBox.Text + "\n----------------------------\n" + logTextBox.Text);
+            audioDeviceComboBox.Items.Clear();
+            audioDeviceComboBox.Items.AddRange(AudioManager.GetRenderDevices().ToArray());
+            audioDeviceComboBox.SelectedIndex = audioDeviceComboBox.FindString(AudioManager.GetDefaultRenderDevice().FriendlyName);
         }
 
-        private void openTemplateFolderToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void refreshTemplatesButton_Click(object sender, EventArgs e)
         {
-            string folder = Path.GetFullPath(Resources.TemplateFolder);
-            Process.Start("explorer.exe", folder);
-        }
-
-        private void runDebugLureFinderToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            if (audioDeviceComboBox.SelectedIndex != -1)
-                tokenSource = new CancellationTokenSource();
-            List<SearchResult> resultList = new List<SearchResult>();
-
-            Task debugBotFunctionTask = Task.Factory.StartNew(() =>
-            {
-                resultList = core.ExecuteDebugBotFunction(appendLog, tokenSource.Token);
-            },
-            tokenSource.Token).ContinueWith(antecedent => ShowDebugResults(resultList));
-
-            GuiUpdateExecutionStart();
-        }
-
-        private void OffestXnumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            core.videoManager.offsetClickX = (int)OffsetXnumericUpDown.Value;
-        }
-
-        private void OffestYnumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            core.videoManager.offsetClickY = (int)OffsetYnumericUpDown.Value;
+            BindTemplateFolderCombobox();
         }
     }
 }
