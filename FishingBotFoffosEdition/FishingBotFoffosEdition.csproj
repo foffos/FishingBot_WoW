@@ -199,15 +199,20 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AppData\Resources\FishingLureTemplates\Alterac Mountain\AM.png" />
+    <Content Include="AppData\Resources\FishingLureTemplates\Azshara\Azshara.png" />
     <Content Include="AppData\Resources\FishingLureTemplates\Default\LureTemplate1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="AppData\Resources\FishingLureTemplates\Default\LureTemplate2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="AppData\Resources\FishingLureTemplates\TBC\tbc.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="AppData\Resources\FishingLureTemplates\Feralas\feralas.png" />
+    <Content Include="AppData\Resources\FishingLureTemplates\Tanaris\Tanaris.png" />
+    <Content Include="AppData\Resources\FishingLureTemplates\Tarren Mill\TM.png" />
+    <Content Include="AppData\Resources\FishingLureTemplates\Terokkar\Terokkar.png" />
+    <Content Include="AppData\Resources\FishingLureTemplates\Thunder Bluff\TB.png" />
+    <Content Include="AppData\Resources\FishingLureTemplates\Zangramash\Zang.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

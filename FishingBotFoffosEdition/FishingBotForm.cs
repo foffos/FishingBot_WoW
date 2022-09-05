@@ -253,7 +253,7 @@ namespace FishingBotFoffosEdition
         {
             statsRichTextBox.Text = String.Empty;
             statsRichTextBox.AppendText($"Tasks to Execute: {core.executionInfo.TaskToExecute}");
-            statsRichTextBox.AppendText("\r\n" + $"Tasks Executed: {core.executionInfo.TeskExecuted}");
+            statsRichTextBox.AppendText("\r\n" + $"Tasks Executed: {core.executionInfo.TaskExecuted}");
             statsRichTextBox.AppendText("\r\n" + $"Tasks Success: {core.executionInfo.TaskSuccess}");
             statsRichTextBox.AppendText("\r\n" + $"Tasks Erros: {core.executionInfo.TaskErrors}");
         }

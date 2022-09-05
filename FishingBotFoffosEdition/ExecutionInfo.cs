@@ -3,7 +3,7 @@
     public class ExecutionInfo
     {
         public int TaskToExecute;
-        public int TeskExecuted;
+        public int TaskExecuted;
 
         public int TaskErrors;
         public int TaskSuccess;

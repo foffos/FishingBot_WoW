@@ -13,7 +13,7 @@ namespace FishingBotFoffosEdition
     {
         private const int EXECUTION_TIMEOUT = 18 * 1000;
         private const int EXECUTION_DELAY = 1000;
-        private const int EXECUTION_DELAY_BEFORE_SEARCH = 3500;
+        private const int EXECUTION_DELAY_BEFORE_SEARCH = 2500;
         private const int EXECUTION_DELAY_FAST = 75;
         private const decimal DEFAULT_AUDIO_TRASHOLD = 0.3M;
         private const int DEFAULT_TASKS_TO_EXECUTE = 50;
@@ -56,7 +56,7 @@ namespace FishingBotFoffosEdition
 
         public void ExecuteMainBotFunction(Action<string> logFunction, CancellationToken cancellationToken)
         {
-
+            executionInfo.TaskExecuted = 0;
             executionStopWatch = new System.Diagnostics.Stopwatch();
             executionStopWatch.Start();
             logFunction($"Starting new Execution...");
@@ -68,7 +68,7 @@ namespace FishingBotFoffosEdition
 
             iterationStopWatch.Start();
 
-            while (executionInfo.TeskExecuted < executionInfo.TaskToExecute)
+            while (executionInfo.TaskExecuted < executionInfo.TaskToExecute)
             {
                 try
                 {
@@ -85,8 +85,8 @@ namespace FishingBotFoffosEdition
                     if (iterationStopWatch.ElapsedMilliseconds > EXECUTION_TIMEOUT)
                     {
                         executionInfo.TaskErrors++;
-                        executionInfo.TeskExecuted++;
-                        logFunction($"[{executionInfo.TeskExecuted + 1}] - Execution timeout - restarting");
+                        executionInfo.TaskExecuted++;
+                        logFunction($"[{executionInfo.TaskExecuted + 1}] - Execution timeout - restarting");
                         state = State.ReadyToFish;
                         mouseUtilityBot.KeyboardPressJump();
                         Thread.Sleep(EXECUTION_DELAY);
@@ -101,28 +101,28 @@ namespace FishingBotFoffosEdition
                             iterationStopWatch.Restart();
                             mouseUtilityBot.KeyboardPressFishing();
                             state = State.SearchingForLure;
-                            logFunction($"[{executionInfo.TeskExecuted + 1}] - Fishing pole used");
+                            logFunction($"[{executionInfo.TaskExecuted + 1}] - Fishing pole used");
                             break;
 
                         //search for target
                         case State.SearchingForLure:
                             Thread.Sleep(EXECUTION_DELAY_BEFORE_SEARCH);
-                            logFunction($"[{executionInfo.TeskExecuted + 1}] - searching for lure with templates from {selectedTemplateFolder}");
+                            logFunction($"[{executionInfo.TaskExecuted + 1}] - searching for lure with templates from {selectedTemplateFolder}");
 
                             SearchResult topResult = videoManager.FindTemplateInCurrentScreenBestPrecision(templateFilesPathList);
 
                             //Force Lure Finding >>> the precision must be more than minimalPrecisionRequired, or it will re-execute
                             if (forceLureFinding && topResult.precision * 100 < (double)minimalPrecisionRequired)
                             {
-                                logFunction($"[{executionInfo.TeskExecuted + 1}] - lure NOT found: precision {(topResult.precision * 100).ToString("0.")}% over {(minimalPrecisionRequired).ToString("0.")}% required - re-executing from first step");
+                                logFunction($"[{executionInfo.TaskExecuted + 1}] - lure NOT found: precision {(topResult.precision * 100).ToString("0.")}% over {(minimalPrecisionRequired).ToString("0.")}% required - re-executing from first step");
                                 state = State.ReadyToFish;
                             }
                             else
                             {
                                 mouseUtilityBot.MoveMouseToPos(topResult.optimizedClickPoint);
                                 state = State.FishingLurePositionFound;
-                                logFunction($"[{executionInfo.TeskExecuted + 1}] - lure found: precision {(topResult.precision * 100).ToString("0.")}%");
-                                logFunction($"[{executionInfo.TeskExecuted + 1}] - Waiting for audio input > {audioThreshold}...");
+                                logFunction($"[{executionInfo.TaskExecuted + 1}] - lure found: precision {(topResult.precision * 100).ToString("0.")}%");
+                                logFunction($"[{executionInfo.TaskExecuted + 1}] - Waiting for audio input > {audioThreshold}...");
                             }
 
                             break;
@@ -134,7 +134,7 @@ namespace FishingBotFoffosEdition
                             if (audioVolume > audioThreshold)
                             {
                                 mouseUtilityBot.RightMouseClick();
-                                logFunction($"[{executionInfo.TeskExecuted + 1}] - CLICK_EXECUTED");
+                                logFunction($"[{executionInfo.TaskExecuted + 1}] - CLICK_EXECUTED");
                                 state = State.Fished;
                             }
 
@@ -143,8 +143,8 @@ namespace FishingBotFoffosEdition
                         //restart
                         case State.Fished:
                             executionInfo.TaskSuccess++;
-                            executionInfo.TeskExecuted++;
-                            logFunction($"[{executionInfo.TeskExecuted + 1}] - Execute_Fished, restarting...");
+                            executionInfo.TaskExecuted++;
+                            logFunction($"[{executionInfo.TaskExecuted + 1}] - Execute_Fished, restarting...");
                             Thread.Sleep(EXECUTION_DELAY);
                             state = State.ReadyToFish;
                             break;
@@ -157,7 +157,7 @@ namespace FishingBotFoffosEdition
                 }
 
             }
-            logFunction($"[{executionInfo.TeskExecuted + 1}] - EXECUTION ENDED");
+            logFunction($"[{executionInfo.TaskExecuted + 1}] - EXECUTION ENDED");
 
         }
 
@@ -178,7 +178,7 @@ namespace FishingBotFoffosEdition
 
                 iterationStopWatch.Start();
 
-                while (executionInfo.TeskExecuted < executionInfo.TaskToExecute)
+                while (executionInfo.TaskExecuted < executionInfo.TaskToExecute)
                 {
                     try
                     {
@@ -201,18 +201,18 @@ namespace FishingBotFoffosEdition
                                 iterationStopWatch.Restart();
                                 mouseUtilityBot.KeyboardPressFishing();
                                 state = State.SearchingForLure;
-                                logFunction($"[{executionInfo.TeskExecuted + 1}] - Fishing pole used");
+                                logFunction($"[{executionInfo.TaskExecuted + 1}] - Fishing pole used");
                                 break;
 
                             //search for target
                             case State.SearchingForLure:
                                 Thread.Sleep(EXECUTION_DELAY_BEFORE_SEARCH);
-                                logFunction($"[{executionInfo.TeskExecuted + 1}] - searching for lure...");
+                                logFunction($"[{executionInfo.TaskExecuted + 1}] - searching for lure...");
                                 SearchResult topResult = videoManager.FindTemplateInCurrentScreenBestPrecision(templateFilesPathList);
-                                logFunction($"[{executionInfo.TeskExecuted + 1}] - lure found with precision {(topResult.precision * 100).ToString("0.")}%");
+                                logFunction($"[{executionInfo.TaskExecuted + 1}] - lure found with precision {(topResult.precision * 100).ToString("0.")}%");
                                 resultList.Add(topResult);
                                 mouseUtilityBot.KeyboardPressJump();
-                                executionInfo.TeskExecuted++;
+                                executionInfo.TaskExecuted++;
                                 state = State.ReadyToFish;
                                 break;
                         }
