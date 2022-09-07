@@ -5,7 +5,7 @@
     <Setting Name="EnableImageLog" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="DefaultDevice" Type="System.Int32" Scope="User">
+    <Setting Name="DefaultDeviceIndex" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="DefaultVolumeTreshold" Type="System.Decimal" Scope="User">
@@ -31,6 +31,18 @@
     </Setting>
     <Setting Name="DefaultTemplate" Type="System.String" Scope="User">
       <Value Profile="(Default)">default</Value>
+    </Setting>
+    <Setting Name="DefaultMsBeforeSearch" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2500</Value>
+    </Setting>
+    <Setting Name="DefaultBuffImagePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AppData/Resources/BuffImage.png</Value>
+    </Setting>
+    <Setting Name="DefaultRefreshBuff" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DefaultMouseLockOnWow" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

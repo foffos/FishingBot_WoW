@@ -67,17 +67,25 @@ namespace FishingBotFoffosEdition
             this.label8 = new System.Windows.Forms.Label();
             this.refreshTemplatesButton = new System.Windows.Forms.Button();
             this.FileInfoLabel = new System.Windows.Forms.Label();
+            this.MsBeforeSearchNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
+            this.useConsumablesCheckBox = new System.Windows.Forms.CheckBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.focussedWindowLabel = new System.Windows.Forms.Label();
+            this.mouseControlLockCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.VolumeTresholdNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ExecutionNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FindingPrecisionNumericUpDown)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OffsetXnumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OffsetYnumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MsBeforeSearchNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // RunButton
             // 
-            this.RunButton.Location = new System.Drawing.Point(31, 55);
+            this.RunButton.Location = new System.Drawing.Point(31, 52);
             this.RunButton.Name = "RunButton";
             this.RunButton.Size = new System.Drawing.Size(128, 47);
             this.RunButton.TabIndex = 1;
@@ -88,7 +96,7 @@ namespace FishingBotFoffosEdition
             // xLabel
             // 
             this.xLabel.AutoSize = true;
-            this.xLabel.Location = new System.Drawing.Point(218, 422);
+            this.xLabel.Location = new System.Drawing.Point(12, 439);
             this.xLabel.Name = "xLabel";
             this.xLabel.Size = new System.Drawing.Size(131, 13);
             this.xLabel.TabIndex = 2;
@@ -97,7 +105,7 @@ namespace FishingBotFoffosEdition
             // keyBindingFishingLabel
             // 
             this.keyBindingFishingLabel.AutoSize = true;
-            this.keyBindingFishingLabel.Location = new System.Drawing.Point(59, 154);
+            this.keyBindingFishingLabel.Location = new System.Drawing.Point(3, 150);
             this.keyBindingFishingLabel.Name = "keyBindingFishingLabel";
             this.keyBindingFishingLabel.Size = new System.Drawing.Size(64, 13);
             this.keyBindingFishingLabel.TabIndex = 5;
@@ -106,7 +114,7 @@ namespace FishingBotFoffosEdition
             // stopButton
             // 
             this.stopButton.Enabled = false;
-            this.stopButton.Location = new System.Drawing.Point(31, 108);
+            this.stopButton.Location = new System.Drawing.Point(31, 105);
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(128, 23);
             this.stopButton.TabIndex = 8;
@@ -126,7 +134,7 @@ namespace FishingBotFoffosEdition
             // outputVolumeTrackerLabel
             // 
             this.outputVolumeTrackerLabel.AutoSize = true;
-            this.outputVolumeTrackerLabel.Location = new System.Drawing.Point(50, 199);
+            this.outputVolumeTrackerLabel.Location = new System.Drawing.Point(45, 199);
             this.outputVolumeTrackerLabel.Name = "outputVolumeTrackerLabel";
             this.outputVolumeTrackerLabel.Size = new System.Drawing.Size(76, 13);
             this.outputVolumeTrackerLabel.TabIndex = 11;
@@ -135,7 +143,7 @@ namespace FishingBotFoffosEdition
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(11, 332);
+            this.label1.Location = new System.Drawing.Point(12, 351);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(92, 13);
             this.label1.TabIndex = 13;
@@ -149,7 +157,7 @@ namespace FishingBotFoffosEdition
             0,
             0,
             131072});
-            this.VolumeTresholdNumericUpDown.Location = new System.Drawing.Point(109, 330);
+            this.VolumeTresholdNumericUpDown.Location = new System.Drawing.Point(110, 349);
             this.VolumeTresholdNumericUpDown.Maximum = new decimal(new int[] {
             2,
             0,
@@ -198,9 +206,9 @@ namespace FishingBotFoffosEdition
             // textBox1
             // 
             this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(62, 170);
+            this.textBox1.Location = new System.Drawing.Point(103, 143);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(52, 20);
+            this.textBox1.Size = new System.Drawing.Size(21, 20);
             this.textBox1.TabIndex = 18;
             this.textBox1.Text = "1";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -246,7 +254,7 @@ namespace FishingBotFoffosEdition
             // audioDeviceComboBox
             // 
             this.audioDeviceComboBox.FormattingEnabled = true;
-            this.audioDeviceComboBox.Location = new System.Drawing.Point(31, 215);
+            this.audioDeviceComboBox.Location = new System.Drawing.Point(31, 218);
             this.audioDeviceComboBox.Name = "audioDeviceComboBox";
             this.audioDeviceComboBox.Size = new System.Drawing.Size(121, 21);
             this.audioDeviceComboBox.TabIndex = 24;
@@ -265,7 +273,7 @@ namespace FishingBotFoffosEdition
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(182, 27);
+            this.label5.Location = new System.Drawing.Point(195, 36);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(78, 13);
             this.label5.TabIndex = 28;
@@ -274,7 +282,7 @@ namespace FishingBotFoffosEdition
             // ForceLureFindingCheckBox
             // 
             this.ForceLureFindingCheckBox.AutoSize = true;
-            this.ForceLureFindingCheckBox.Location = new System.Drawing.Point(14, 261);
+            this.ForceLureFindingCheckBox.Location = new System.Drawing.Point(12, 277);
             this.ForceLureFindingCheckBox.Name = "ForceLureFindingCheckBox";
             this.ForceLureFindingCheckBox.Size = new System.Drawing.Size(107, 17);
             this.ForceLureFindingCheckBox.TabIndex = 29;
@@ -289,7 +297,7 @@ namespace FishingBotFoffosEdition
             0,
             0,
             0});
-            this.FindingPrecisionNumericUpDown.Location = new System.Drawing.Point(131, 289);
+            this.FindingPrecisionNumericUpDown.Location = new System.Drawing.Point(125, 307);
             this.FindingPrecisionNumericUpDown.Name = "FindingPrecisionNumericUpDown";
             this.FindingPrecisionNumericUpDown.Size = new System.Drawing.Size(45, 20);
             this.FindingPrecisionNumericUpDown.TabIndex = 30;
@@ -298,7 +306,7 @@ namespace FishingBotFoffosEdition
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(11, 291);
+            this.label6.Location = new System.Drawing.Point(9, 309);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(110, 13);
             this.label6.TabIndex = 31;
@@ -452,11 +460,95 @@ namespace FishingBotFoffosEdition
             this.FileInfoLabel.Size = new System.Drawing.Size(0, 13);
             this.FileInfoLabel.TabIndex = 40;
             // 
+            // MsBeforeSearchNumericUpDown
+            // 
+            this.MsBeforeSearchNumericUpDown.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.MsBeforeSearchNumericUpDown.Location = new System.Drawing.Point(641, 406);
+            this.MsBeforeSearchNumericUpDown.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.MsBeforeSearchNumericUpDown.Name = "MsBeforeSearchNumericUpDown";
+            this.MsBeforeSearchNumericUpDown.Size = new System.Drawing.Size(59, 20);
+            this.MsBeforeSearchNumericUpDown.TabIndex = 41;
+            this.MsBeforeSearchNumericUpDown.ValueChanged += new System.EventHandler(this.MsBeforeSearchNumericUpDown_ValueChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(617, 390);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(109, 13);
+            this.label9.TabIndex = 42;
+            this.label9.Text = "Ms before search lure";
+            // 
+            // useConsumablesCheckBox
+            // 
+            this.useConsumablesCheckBox.AutoSize = true;
+            this.useConsumablesCheckBox.Location = new System.Drawing.Point(11, 254);
+            this.useConsumablesCheckBox.Name = "useConsumablesCheckBox";
+            this.useConsumablesCheckBox.Size = new System.Drawing.Size(110, 17);
+            this.useConsumablesCheckBox.TabIndex = 44;
+            this.useConsumablesCheckBox.Text = "Use consumables";
+            this.useConsumablesCheckBox.UseVisualStyleBackColor = true;
+            this.useConsumablesCheckBox.CheckedChanged += new System.EventHandler(this.useConsumablesCheckBox_CheckedChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(3, 172);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(94, 13);
+            this.label10.TabIndex = 45;
+            this.label10.Text = "Consumables Key:";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Enabled = false;
+            this.textBox2.Location = new System.Drawing.Point(103, 169);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(21, 20);
+            this.textBox2.TabIndex = 46;
+            this.textBox2.Text = "2";
+            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // focussedWindowLabel
+            // 
+            this.focussedWindowLabel.AutoSize = true;
+            this.focussedWindowLabel.Location = new System.Drawing.Point(214, 439);
+            this.focussedWindowLabel.Name = "focussedWindowLabel";
+            this.focussedWindowLabel.Size = new System.Drawing.Size(95, 13);
+            this.focussedWindowLabel.TabIndex = 47;
+            this.focussedWindowLabel.Text = "Focussed window:";
+            // 
+            // mouseControlLockCheckBox
+            // 
+            this.mouseControlLockCheckBox.AutoSize = true;
+            this.mouseControlLockCheckBox.Location = new System.Drawing.Point(217, 419);
+            this.mouseControlLockCheckBox.Name = "mouseControlLockCheckBox";
+            this.mouseControlLockCheckBox.Size = new System.Drawing.Size(155, 17);
+            this.mouseControlLockCheckBox.TabIndex = 48;
+            this.mouseControlLockCheckBox.Text = "Mouse control only on wow";
+            this.mouseControlLockCheckBox.UseVisualStyleBackColor = true;
+            this.mouseControlLockCheckBox.CheckedChanged += new System.EventHandler(this.mouseControlLockCheckBox_CheckedChanged);
+            // 
             // FishingBotForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(760, 461);
+            this.Controls.Add(this.mouseControlLockCheckBox);
+            this.Controls.Add(this.focussedWindowLabel);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.useConsumablesCheckBox);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.MsBeforeSearchNumericUpDown);
             this.Controls.Add(this.FileInfoLabel);
             this.Controls.Add(this.refreshTemplatesButton);
             this.Controls.Add(this.label8);
@@ -490,7 +582,7 @@ namespace FishingBotFoffosEdition
             this.Controls.Add(this.menuStrip1);
             this.Icon = global::FishingBotFoffosEdition.Properties.Resources.Icon;
             this.Name = "FishingBotForm";
-            this.Text = "Foffos Fishing Bot Wow 3.3.5 Beta 0.2.2";
+            this.Text = "Foffos Fishing Bot Wow 3.3.5 Beta 0.3";
             ((System.ComponentModel.ISupportInitialize)(this.VolumeTresholdNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ExecutionNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.FindingPrecisionNumericUpDown)).EndInit();
@@ -498,6 +590,7 @@ namespace FishingBotFoffosEdition
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OffsetXnumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.OffsetYnumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MsBeforeSearchNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -541,6 +634,13 @@ namespace FishingBotFoffosEdition
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button refreshTemplatesButton;
         private System.Windows.Forms.Label FileInfoLabel;
+        private System.Windows.Forms.NumericUpDown MsBeforeSearchNumericUpDown;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.CheckBox useConsumablesCheckBox;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label focussedWindowLabel;
+        private System.Windows.Forms.CheckBox mouseControlLockCheckBox;
     }
 }
 

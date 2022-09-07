@@ -8,6 +8,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Forms;
 
 namespace FishingBotFoffosEdition
@@ -61,6 +63,7 @@ namespace FishingBotFoffosEdition
             public double precision;
             public Point optimizedClickPoint;
             public string imagePath;
+            public bool missingBuff = false;
         }
 
         /// <summary>
@@ -92,7 +95,7 @@ namespace FishingBotFoffosEdition
             }
             if (!Directory.Exists(Resources.TempFolder))
                 Directory.CreateDirectory(Resources.TempFolder);
-            if (!Directory.Exists(Path.Combine(Resources.TempFolder,"Processed")))
+            if (!Directory.Exists(Path.Combine(Resources.TempFolder, "Processed")))
                 Directory.CreateDirectory(Path.Combine(Resources.TempFolder, "Processed"));
 
             string pathToSave = Path.Combine(Resources.TempFolder, $"Processed//Screen{DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")}.jpg");
@@ -100,22 +103,54 @@ namespace FishingBotFoffosEdition
             return new SearchResult() { rect = lureReturnedRect, precision = compareValue, optimizedClickPoint = optimizedClickPoint, imagePath = pathToSave };
         }
 
-        public List<SearchResult> FindTemplatesInCurrentScreen(List<string> templateFilePathList)
+        public List<SearchResult> FindTemplatesInCurrentScreen(List<string> templateFilePathList, bool enableBuffRefresh)
         {
             string screenhotPath = TakeScreenshot();
             List<SearchResult> searchResutList = new List<SearchResult>();
+            bool missingBuff = false;
+            if (enableBuffRefresh) 
+            { 
+                missingBuff = newSearch(screenhotPath, Settings.Default.DefaultBuffImagePath).precision < 0.90;
+            }
             foreach (var template in templateFilePathList)
             {
                 SearchResult searchResult = newSearch(screenhotPath, template);
+                searchResult.missingBuff = missingBuff;
                 searchResutList.Add(searchResult);
             }
             return searchResutList;
         }
 
-        public SearchResult FindTemplateInCurrentScreenBestPrecision(List<string> templateFilePathList)
+        public SearchResult FindTemplateInCurrentScreenBestPrecision(List<string> templateFilePathList, bool enableBuffRefresh)
         {
-            var results = FindTemplatesInCurrentScreen(templateFilePathList);
+            var results = FindTemplatesInCurrentScreen(templateFilePathList, enableBuffRefresh);
             return results.OrderByDescending(x => x.precision).First();
+        }
+
+
+        [DllImport("user32.dll")]
+        static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll")]
+        static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
+
+        public static string GetActiveWindowTitle()
+        {
+            const int nChars = 256;
+            StringBuilder Buff = new StringBuilder(nChars);
+            IntPtr handle = GetForegroundWindow();
+
+            if (GetWindowText(handle, Buff, nChars) > 0)
+            {
+                return Buff.ToString();
+            }
+            return null;
+        }
+
+        private const string WOW_WINDOW_NAME = "World of Warcraft";
+        public static bool IsWowOnFocus()
+        {
+            return VideoManager.GetActiveWindowTitle() == WOW_WINDOW_NAME;
         }
     }
 }

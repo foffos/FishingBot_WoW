@@ -71,16 +71,41 @@ namespace FishingBotFoffosEdition
         {
             Settings.Default.DefaultVolumeTreshold = VolumeTresholdNumericUpDown.Value;
             Settings.Default.DefaultExecuteTaskNumber = core.executionInfo.TaskToExecute;
-            Settings.Default.DefaultDevice = audioDeviceComboBox.SelectedIndex;
+            Settings.Default.DefaultDeviceIndex = audioDeviceComboBox.SelectedIndex;
             Settings.Default.ForceLureFinding = ForceLureFindingCheckBox.Checked;
+            Settings.Default.DefaultRefreshBuff = useConsumablesCheckBox.Checked;
             Settings.Default.MinimalPrecisionRequired = FindingPrecisionNumericUpDown.Value;
 
             Settings.Default.XOffset = (int)OffsetXnumericUpDown.Value;
             Settings.Default.YOffset = (int)OffsetYnumericUpDown.Value;
 
-            Settings.Default.DefaultTemplate = templateFolderComboBox.SelectedValue.ToString();
-
+            Settings.Default.DefaultTemplate = templateFolderComboBox.SelectedItem?.ToString();
+            Settings.Default.DefaultMsBeforeSearch = (int)MsBeforeSearchNumericUpDown.Value;
+            Settings.Default.DefaultMouseLockOnWow = mouseControlLockCheckBox.Checked;
             Settings.Default.Save();
+        }
+        private void loadConfiguration()
+        {
+            VolumeTresholdNumericUpDown.Value = Settings.Default.DefaultVolumeTreshold;
+            ExecutionNumericUpDown.Value = Settings.Default.DefaultExecuteTaskNumber;
+            ForceLureFindingCheckBox.Checked = Settings.Default.ForceLureFinding;
+            useConsumablesCheckBox.Checked = Settings.Default.DefaultRefreshBuff;
+            FindingPrecisionNumericUpDown.Value = Settings.Default.MinimalPrecisionRequired;
+            OffsetXnumericUpDown.Value = Settings.Default.XOffset;
+            OffsetYnumericUpDown.Value = Settings.Default.YOffset;
+            MsBeforeSearchNumericUpDown.Value = Settings.Default.DefaultMsBeforeSearch;
+            mouseControlLockCheckBox.Checked = Settings.Default.DefaultMouseLockOnWow;
+
+
+            if (audioDeviceComboBox.Items.Count >= Settings.Default.DefaultDeviceIndex + 1)
+                audioDeviceComboBox.SelectedIndex = Settings.Default.DefaultDeviceIndex;
+            else
+                audioDeviceComboBox.SelectedIndex = 0;
+
+            if (templateFolderComboBox.Items.Contains(Settings.Default.DefaultTemplate))
+                templateFolderComboBox.SelectedIndex = templateFolderComboBox.Items.IndexOf(Settings.Default.DefaultTemplate);
+            else
+                templateFolderComboBox.SelectedIndex = 0;
         }
         private void clearExecutionInfoButton_Click(object sender, EventArgs e)
         {
@@ -141,7 +166,7 @@ namespace FishingBotFoffosEdition
         }
         private void openTemplateFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start("explorer.exe", Resources.TemplateFolder);
+            Process.Start("explorer.exe", Path.GetFullPath(Resources.TemplateFolder));
         }
         private void runDebugLureFinderToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -183,6 +208,7 @@ namespace FishingBotFoffosEdition
         void CursorPosTracker_TickEvent(object sender, EventArgs e)
         {
             refreshCoordinates();
+            refreshFocussedWindow();
         }
 
         private void StartAudioMonitorTimer()
@@ -244,6 +270,11 @@ namespace FishingBotFoffosEdition
             xLabel.Text = $"Cursor Position: X: {newMousePos.X}    Y:{newMousePos.Y}";
         }
 
+        public void refreshFocussedWindow()
+        {
+            focussedWindowLabel.Text = $"Focussed window: {VideoManager.GetActiveWindowTitle()}";
+        }
+
         public void refreshAudioMonitor()
         {
             outputVolumeTrackerLabel.Text = $"Audio Level: {core.audioVolume.ToString("0.000")}";
@@ -267,25 +298,7 @@ namespace FishingBotFoffosEdition
 
         #endregion
 
-        private void loadConfiguration()
-        {
-            VolumeTresholdNumericUpDown.Value = Settings.Default.DefaultVolumeTreshold;
-            ExecutionNumericUpDown.Value = Settings.Default.DefaultExecuteTaskNumber;
-            ForceLureFindingCheckBox.Checked = Settings.Default.ForceLureFinding;
-            FindingPrecisionNumericUpDown.Value = Settings.Default.MinimalPrecisionRequired;
-            OffsetXnumericUpDown.Value = Settings.Default.XOffset;
-            OffsetYnumericUpDown.Value = Settings.Default.YOffset;
 
-            if (audioDeviceComboBox.Items.Contains(Settings.Default.DefaultDevice))
-                audioDeviceComboBox.SelectedIndex = Settings.Default.DefaultDevice;
-            else
-                audioDeviceComboBox.SelectedIndex = 0;
-
-            if (templateFolderComboBox.Items.Contains(Settings.Default.DefaultTemplate))
-                templateFolderComboBox.SelectedValue = Settings.Default.DefaultTemplate;
-            else
-                templateFolderComboBox.SelectedIndex = 0;
-        }
 
         public void appendLog(string log)
         {
@@ -347,6 +360,21 @@ namespace FishingBotFoffosEdition
         private void refreshTemplatesButton_Click(object sender, EventArgs e)
         {
             BindTemplateFolderCombobox();
+        }
+
+        private void MsBeforeSearchNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            core.EXECUTION_DELAY_BEFORE_SEARCH = (int)MsBeforeSearchNumericUpDown.Value;
+        }
+
+        private void useConsumablesCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            core.enableBuffRefresh = useConsumablesCheckBox.Checked;
+        }
+
+        private void mouseControlLockCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            core.MouseLockOnWow(mouseControlLockCheckBox.Checked);
         }
     }
 }

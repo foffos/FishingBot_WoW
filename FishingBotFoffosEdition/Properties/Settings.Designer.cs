@@ -12,7 +12,7 @@ namespace FishingBotFoffosEdition.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.3.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.2.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -38,12 +38,12 @@ namespace FishingBotFoffosEdition.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int DefaultDevice {
+        public int DefaultDeviceIndex {
             get {
-                return ((int)(this["DefaultDevice"]));
+                return ((int)(this["DefaultDeviceIndex"]));
             }
             set {
-                this["DefaultDevice"] = value;
+                this["DefaultDeviceIndex"] = value;
             }
         }
         
@@ -140,6 +140,54 @@ namespace FishingBotFoffosEdition.Properties {
             }
             set {
                 this["DefaultTemplate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2500")]
+        public int DefaultMsBeforeSearch {
+            get {
+                return ((int)(this["DefaultMsBeforeSearch"]));
+            }
+            set {
+                this["DefaultMsBeforeSearch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("AppData/Resources/BuffImage.png")]
+        public string DefaultBuffImagePath {
+            get {
+                return ((string)(this["DefaultBuffImagePath"]));
+            }
+            set {
+                this["DefaultBuffImagePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DefaultRefreshBuff {
+            get {
+                return ((bool)(this["DefaultRefreshBuff"]));
+            }
+            set {
+                this["DefaultRefreshBuff"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefaultMouseLockOnWow {
+            get {
+                return ((bool)(this["DefaultMouseLockOnWow"]));
+            }
+            set {
+                this["DefaultMouseLockOnWow"] = value;
             }
         }
     }

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Shapes;
 using Path = System.IO.Path;
@@ -51,7 +52,10 @@ namespace FishingBotFoffosEdition
         {
             if (!File.Exists(LOGFILENAME))
             {
-                File.Create(LOGFILENAME);
+                using (FileStream fs = File.Create(LOGFILENAME))
+                {
+
+                }
             }
             File.AppendAllText(LOGFILENAME, String.Concat($"[{DateTime.Now}] - {logString}"));
         }
