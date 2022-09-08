@@ -11,6 +11,7 @@ namespace FishingBotFoffosEdition
 {
     public class CoreFishingBot
     {
+        private const int BUFF_DURATION = 10 * 60 * 1000;
         private const int EXECUTION_WAIT_WOW_FOCUS = 3000;
         private const int EXECUTION_TIMEOUT = 18 * 1000;
         private const int EXECUTION_DELAY = 1000;
@@ -41,6 +42,7 @@ namespace FishingBotFoffosEdition
         public string selectedTemplateFolder;
         public System.Diagnostics.Stopwatch iterationStopWatch;
         public System.Diagnostics.Stopwatch executionStopWatch;
+        public System.Diagnostics.Stopwatch buffRefreshStopWatch;
 
         public bool enableBuffRefresh = false;
         public bool consumablesOutOfStock = false;
@@ -64,6 +66,7 @@ namespace FishingBotFoffosEdition
 
             executionStopWatch = new System.Diagnostics.Stopwatch();
             iterationStopWatch = new System.Diagnostics.Stopwatch();
+            buffRefreshStopWatch = new System.Diagnostics.Stopwatch();
         }
 
         public void ExecuteMainBotFunction(Action<string> logFunction, CancellationToken cancellationToken)
@@ -72,6 +75,8 @@ namespace FishingBotFoffosEdition
             executionInfo.TaskExecuted = 0;
             executionStopWatch = new System.Diagnostics.Stopwatch();
             executionStopWatch.Start();
+            buffRefreshStopWatch = new System.Diagnostics.Stopwatch();
+            buffRefreshStopWatch.Start();
             logFunction($"Starting new Execution...");
             State state = State.ReadyToFish;
             iterationStopWatch = new System.Diagnostics.Stopwatch();
@@ -120,13 +125,15 @@ namespace FishingBotFoffosEdition
                                 Thread.Sleep(EXECUTION_DELAY);
 
                                 //check buff
-                                if (enableBuffRefresh && !consumablesOutOfStock && expiredBuff)
+                                //if (enableBuffRefresh && !consumablesOutOfStock && expiredBuff)
+                                if(enableBuffRefresh && buffRefreshStopWatch.ElapsedMilliseconds > BUFF_DURATION)
                                 {
                                     logFunction($"[{executionInfo.TaskExecuted + 1}] - Buff Expired > reapplying consumable");
                                     mouseUtilityBot.KeyboardPressBuff();
                                     Thread.Sleep(EXECUTION_DELAY_APPLY_BUFF);
                                     expiredBuff = false;
                                     buffRefreshedInLastExecution = true;
+                                    buffRefreshStopWatch.Restart();
                                     state = State.ReadyToFish;
                                 }
                                 else
@@ -144,7 +151,7 @@ namespace FishingBotFoffosEdition
                                 Thread.Sleep(EXECUTION_DELAY_BEFORE_SEARCH);
                                 logFunction($"[{executionInfo.TaskExecuted + 1}] - searching for lure with templates from {selectedTemplateFolder}");
 
-                                SearchResult topResult = videoManager.FindTemplateInCurrentScreenBestPrecision(templateFilesPathList, enableBuffRefresh);
+                                SearchResult topResult = videoManager.FindTemplateInCurrentScreenBestPrecision(templateFilesPathList, false);//TODO CHANGE
 
                                 if (topResult.missingBuff && buffRefreshedInLastExecution)
                                 {
