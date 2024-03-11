@@ -357,11 +357,6 @@ namespace FishingBotFoffosEdition
             audioDeviceComboBox.SelectedIndex = audioDeviceComboBox.FindString(AudioManager.GetDefaultRenderDevice().FriendlyName);
         }
 
-        private void refreshTemplatesButton_Click(object sender, EventArgs e)
-        {
-            BindTemplateFolderCombobox();
-        }
-
         private void MsBeforeSearchNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
             core.EXECUTION_DELAY_BEFORE_SEARCH = (int)MsBeforeSearchNumericUpDown.Value;
@@ -376,5 +371,10 @@ namespace FishingBotFoffosEdition
         {
             core.MouseLockOnWow(mouseControlLockCheckBox.Checked);
         }
-    }
+
+		private void refreshButton_Click(object sender, EventArgs e)
+		{
+			BindTemplateFolderCombobox();
+		}
+	}
 }

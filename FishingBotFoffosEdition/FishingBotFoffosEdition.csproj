@@ -230,6 +230,7 @@
     <Content Include="AppData\Resources\FishingLureTemplates\Zangramash\Zang.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="AppData\Resources\Refresh_icon.svg.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
