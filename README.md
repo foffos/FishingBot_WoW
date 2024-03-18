@@ -1,8 +1,10 @@
 # WoW Fishing bot
 
+### Status
+The main implementation is complete and working, a full guide is still missing and many things should be improved to provide a better user experience and simplify the configuration
+
 ### What is this?
 This is a standalone program that will automatically farm fish in World of Warcraft, autonomously reproduces the steps required to fish, from the user input to start fishing and catch the fish that has hooked to searching for the fishing lure on the screen and placing the mouse over it
-
 
 ### How does it work?
 
