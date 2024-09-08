@@ -30,6 +30,7 @@ namespace FishingBotFoffosEdition
         /// </summary>
         private void InitializeComponent()
         {
+			this.components = new System.ComponentModel.Container();
 			this.RunButton = new System.Windows.Forms.Button();
 			this.xLabel = new System.Windows.Forms.Label();
 			this.keyBindingFishingLabel = new System.Windows.Forms.Label();
@@ -74,6 +75,8 @@ namespace FishingBotFoffosEdition
 			this.focussedWindowLabel = new System.Windows.Forms.Label();
 			this.mouseControlLockCheckBox = new System.Windows.Forms.CheckBox();
 			this.refreshButton = new System.Windows.Forms.Button();
+			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.createNewTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.VolumeTresholdNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.ExecutionNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.FindingPrecisionNumericUpDown)).BeginInit();
@@ -359,6 +362,7 @@ namespace FishingBotFoffosEdition
 			// configurationToolStripMenuItem
 			// 
 			this.configurationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.createNewTemplateToolStripMenuItem,
             this.openTemplateFolderToolStripMenuItem,
             this.runDebugLureFinderToolStripMenuItem});
 			this.configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
@@ -375,8 +379,8 @@ namespace FishingBotFoffosEdition
 			// runDebugLureFinderToolStripMenuItem
 			// 
 			this.runDebugLureFinderToolStripMenuItem.Name = "runDebugLureFinderToolStripMenuItem";
-			this.runDebugLureFinderToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
-			this.runDebugLureFinderToolStripMenuItem.Text = "[BETA] Run debug lure finder";
+			this.runDebugLureFinderToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+			this.runDebugLureFinderToolStripMenuItem.Text = "Run debug lure finder";
 			this.runDebugLureFinderToolStripMenuItem.Click += new System.EventHandler(this.runDebugLureFinderToolStripMenuItem_Click);
 			// 
 			// OffsetXnumericUpDown
@@ -537,6 +541,18 @@ namespace FishingBotFoffosEdition
 			this.refreshButton.UseVisualStyleBackColor = true;
 			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
 			// 
+			// contextMenuStrip1
+			// 
+			this.contextMenuStrip1.Name = "contextMenuStrip1";
+			this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+			// 
+			// createNewTemplateToolStripMenuItem
+			// 
+			this.createNewTemplateToolStripMenuItem.Name = "createNewTemplateToolStripMenuItem";
+			this.createNewTemplateToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
+			this.createNewTemplateToolStripMenuItem.Text = "Create New Template";
+			this.createNewTemplateToolStripMenuItem.Click += new System.EventHandler(this.createNewTemplateToolStripMenuItem_Click);
+			// 
 			// FishingBotForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -641,6 +657,8 @@ namespace FishingBotFoffosEdition
         private System.Windows.Forms.Label focussedWindowLabel;
         private System.Windows.Forms.CheckBox mouseControlLockCheckBox;
 		private System.Windows.Forms.Button refreshButton;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+		private System.Windows.Forms.ToolStripMenuItem createNewTemplateToolStripMenuItem;
 	}
 }
 
