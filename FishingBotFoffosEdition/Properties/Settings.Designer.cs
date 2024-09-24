@@ -12,7 +12,7 @@ namespace FishingBotFoffosEdition.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.2.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.8.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -49,7 +49,7 @@ namespace FishingBotFoffosEdition.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.20")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.10")]
         public decimal DefaultVolumeTreshold {
             get {
                 return ((decimal)(this["DefaultVolumeTreshold"]));
@@ -85,7 +85,7 @@ namespace FishingBotFoffosEdition.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
         public decimal MinimalPrecisionRequired {
             get {
                 return ((decimal)(this["MinimalPrecisionRequired"]));
@@ -97,7 +97,7 @@ namespace FishingBotFoffosEdition.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
         public int DebugRuns {
             get {
                 return ((int)(this["DebugRuns"]));
@@ -169,7 +169,7 @@ namespace FishingBotFoffosEdition.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool DefaultRefreshBuff {
             get {
                 return ((bool)(this["DefaultRefreshBuff"]));
@@ -181,7 +181,7 @@ namespace FishingBotFoffosEdition.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool DefaultMouseLockOnWow {
             get {
                 return ((bool)(this["DefaultMouseLockOnWow"]));

@@ -200,35 +200,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AppData\Resources\BuffImage.png" />
-    <Content Include="AppData\Resources\FishingLureTemplates\Alterac Mountain\AM.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AppData\Resources\FishingLureTemplates\Azshara\Azshara.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AppData\Resources\FishingLureTemplates\Default\LureTemplate1.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AppData\Resources\FishingLureTemplates\Default\LureTemplate2.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AppData\Resources\FishingLureTemplates\Feralas\feralas.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AppData\Resources\FishingLureTemplates\Tanaris\Tanaris.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AppData\Resources\FishingLureTemplates\Tarren Mill\TM.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AppData\Resources\FishingLureTemplates\Terokkar\Terokkar.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AppData\Resources\FishingLureTemplates\Thunder Bluff\TB.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AppData\Resources\FishingLureTemplates\Zangramash\Zang.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="AppData\Resources\FishingLureTemplates\Default\lure.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="AppData\Resources\Refresh_icon.svg.png" />
   </ItemGroup>

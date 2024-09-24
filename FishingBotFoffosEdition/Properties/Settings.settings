@@ -9,7 +9,7 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="DefaultVolumeTreshold" Type="System.Decimal" Scope="User">
-      <Value Profile="(Default)">0.20</Value>
+      <Value Profile="(Default)">0.10</Value>
     </Setting>
     <Setting Name="DefaultExecuteTaskNumber" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">200</Value>
@@ -18,10 +18,10 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="MinimalPrecisionRequired" Type="System.Decimal" Scope="User">
-      <Value Profile="(Default)">50</Value>
+      <Value Profile="(Default)">60</Value>
     </Setting>
     <Setting Name="DebugRuns" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">5</Value>
+      <Value Profile="(Default)">3</Value>
     </Setting>
     <Setting Name="YOffset" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
@@ -39,10 +39,10 @@
       <Value Profile="(Default)">AppData/Resources/BuffImage.png</Value>
     </Setting>
     <Setting Name="DefaultRefreshBuff" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="DefaultMouseLockOnWow" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>
